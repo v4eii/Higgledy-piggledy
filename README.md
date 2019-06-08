@@ -1,1 +1,1 @@
-# Higgledy-piggledy ыыы
+# Higgledy-piggledy
