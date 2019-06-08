@@ -16,6 +16,7 @@ import org.controlsfx.dialog.ExceptionDialog;
  */
 public class DBBean {
     
+    
     private static DBBean instance = new DBBean();
     private String usr, psw;
     
@@ -161,6 +162,5 @@ public class DBBean {
     }
             
     //</editor-fold>
-    
     
 }
