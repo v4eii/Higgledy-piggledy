@@ -1,5 +1,13 @@
 package administration.beans;
 
+import administration.entity.controllers.CityJpaController;
+import administration.entity.controllers.GeneralCafeJpaController;
+import administration.entity.controllers.GeneralTradeJpaController;
+import administration.entity.controllers.RegionJpaController;
+import administration.entity.controllers.SpecializationJpaController;
+import administration.entity.controllers.StatementJpaController;
+import administration.entity.controllers.StreetJpaController;
+import administration.entity.controllers.UsersJpaController;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -8,6 +16,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.StageStyle;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import org.controlsfx.dialog.ExceptionDialog;
 
 /**
@@ -16,14 +27,26 @@ import org.controlsfx.dialog.ExceptionDialog;
  */
 public class DBBean {
     
+    private CityJpaController cityJPACtrl;
+    private GeneralCafeJpaController genCafeJPACtrl;
+    private GeneralTradeJpaController genTradeJPACtrl;
+    private RegionJpaController regionJPACtrl;
+    private SpecializationJpaController specializationJPACtrl;
+    private StatementJpaController statementJPACtrl;
+    private StreetJpaController streetJPACtrl;
+    private UsersJpaController usersJPACtrl;
     
     private static DBBean instance = new DBBean();
     private String usr, psw;
     
-    /*
+    
     @PersistenceContext(unitName = "CarRentPU")
     private EntityManagerFactory emf = null;
-    */
+    
+    public EntityManagerFactory getEMF()
+    {
+        return emf == null ? emf = Persistence.createEntityManagerFactory("AdministrationPU") : emf;
+    }
     
     public enum RECORD_STATE
     {
@@ -161,6 +184,48 @@ public class DBBean {
         return dlg.showAndWait();
     }
             
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Геттеры контроллеров сущностей">
+    public CityJpaController getCityJpaController()
+    {
+        return cityJPACtrl == null ? cityJPACtrl = new CityJpaController(getEMF()) : cityJPACtrl;
+    }
+    
+    public GeneralCafeJpaController getGeneralCafeJpaController()
+    {
+        return genCafeJPACtrl == null ? genCafeJPACtrl = new GeneralCafeJpaController(getEMF()) : genCafeJPACtrl;
+    }
+    
+    public GeneralTradeJpaController getGeneralTradeJpaController()
+    {
+        return genTradeJPACtrl == null ? genTradeJPACtrl = new GeneralTradeJpaController(getEMF()) : genTradeJPACtrl;
+    }
+    
+    public RegionJpaController getRegionJpaController()
+    {
+        return regionJPACtrl == null ? regionJPACtrl = new RegionJpaController(getEMF()) : regionJPACtrl;
+    }
+    
+    public SpecializationJpaController getSpecializationJpaController()
+    {
+        return specializationJPACtrl == null ? specializationJPACtrl = new SpecializationJpaController(getEMF()) : specializationJPACtrl;
+    }
+    
+    public StatementJpaController getStatementJpaController()
+    {
+        return statementJPACtrl == null ? statementJPACtrl = new StatementJpaController(getEMF()) : statementJPACtrl;
+    }
+    
+    public StreetJpaController getStreetJpaController()
+    {
+        return streetJPACtrl == null ? streetJPACtrl = new StreetJpaController(getEMF()) : streetJPACtrl;
+    }
+    
+    public UsersJpaController getUsersJpaController()
+    {
+        return usersJPACtrl == null ? usersJPACtrl = new UsersJpaController(getEMF()) : usersJPACtrl;
+    }
     //</editor-fold>
     
 }

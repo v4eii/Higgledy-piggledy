@@ -10,10 +10,10 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import administration.entity.General;
+import administration.entity.GeneralTrade;
 import java.util.ArrayList;
 import java.util.Collection;
-import administration.entity.General2;
+import administration.entity.GeneralCafe;
 import administration.entity.Users;
 import administration.entity.controllers.exceptions.IllegalOrphanException;
 import administration.entity.controllers.exceptions.NonexistentEntityException;
@@ -40,54 +40,54 @@ public class UsersJpaController implements Serializable {
 
     public void create(Users users)
     {
-        if (users.getGeneralCollection() == null)
+        if (users.getGeneralTradeCollection() == null)
         {
-            users.setGeneralCollection(new ArrayList<General>());
+            users.setGeneralTradeCollection(new ArrayList<GeneralTrade>());
         }
-        if (users.getGeneral2Collection() == null)
+        if (users.getGeneralCafeCollection() == null)
         {
-            users.setGeneral2Collection(new ArrayList<General2>());
+            users.setGeneralCafeCollection(new ArrayList<GeneralCafe>());
         }
         EntityManager em = null;
         try
         {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<General> attachedGeneralCollection = new ArrayList<General>();
-            for (General generalCollectionGeneralToAttach : users.getGeneralCollection())
+            Collection<GeneralTrade> attachedGeneralTradeCollection = new ArrayList<GeneralTrade>();
+            for (GeneralTrade generalTradeCollectionGeneralTradeToAttach : users.getGeneralTradeCollection())
             {
-                generalCollectionGeneralToAttach = em.getReference(generalCollectionGeneralToAttach.getClass(), generalCollectionGeneralToAttach.getIdUnion());
-                attachedGeneralCollection.add(generalCollectionGeneralToAttach);
+                generalTradeCollectionGeneralTradeToAttach = em.getReference(generalTradeCollectionGeneralTradeToAttach.getClass(), generalTradeCollectionGeneralTradeToAttach.getIdUnion());
+                attachedGeneralTradeCollection.add(generalTradeCollectionGeneralTradeToAttach);
             }
-            users.setGeneralCollection(attachedGeneralCollection);
-            Collection<General2> attachedGeneral2Collection = new ArrayList<General2>();
-            for (General2 general2CollectionGeneral2ToAttach : users.getGeneral2Collection())
+            users.setGeneralTradeCollection(attachedGeneralTradeCollection);
+            Collection<GeneralCafe> attachedGeneralCafeCollection = new ArrayList<GeneralCafe>();
+            for (GeneralCafe generalCafeCollectionGeneralCafeToAttach : users.getGeneralCafeCollection())
             {
-                general2CollectionGeneral2ToAttach = em.getReference(general2CollectionGeneral2ToAttach.getClass(), general2CollectionGeneral2ToAttach.getIdUnion());
-                attachedGeneral2Collection.add(general2CollectionGeneral2ToAttach);
+                generalCafeCollectionGeneralCafeToAttach = em.getReference(generalCafeCollectionGeneralCafeToAttach.getClass(), generalCafeCollectionGeneralCafeToAttach.getIdUnion());
+                attachedGeneralCafeCollection.add(generalCafeCollectionGeneralCafeToAttach);
             }
-            users.setGeneral2Collection(attachedGeneral2Collection);
+            users.setGeneralCafeCollection(attachedGeneralCafeCollection);
             em.persist(users);
-            for (General generalCollectionGeneral : users.getGeneralCollection())
+            for (GeneralTrade generalTradeCollectionGeneralTrade : users.getGeneralTradeCollection())
             {
-                Users oldIdUserOfGeneralCollectionGeneral = generalCollectionGeneral.getIdUser();
-                generalCollectionGeneral.setIdUser(users);
-                generalCollectionGeneral = em.merge(generalCollectionGeneral);
-                if (oldIdUserOfGeneralCollectionGeneral != null)
+                Users oldIdUserOfGeneralTradeCollectionGeneralTrade = generalTradeCollectionGeneralTrade.getIdUser();
+                generalTradeCollectionGeneralTrade.setIdUser(users);
+                generalTradeCollectionGeneralTrade = em.merge(generalTradeCollectionGeneralTrade);
+                if (oldIdUserOfGeneralTradeCollectionGeneralTrade != null)
                 {
-                    oldIdUserOfGeneralCollectionGeneral.getGeneralCollection().remove(generalCollectionGeneral);
-                    oldIdUserOfGeneralCollectionGeneral = em.merge(oldIdUserOfGeneralCollectionGeneral);
+                    oldIdUserOfGeneralTradeCollectionGeneralTrade.getGeneralTradeCollection().remove(generalTradeCollectionGeneralTrade);
+                    oldIdUserOfGeneralTradeCollectionGeneralTrade = em.merge(oldIdUserOfGeneralTradeCollectionGeneralTrade);
                 }
             }
-            for (General2 general2CollectionGeneral2 : users.getGeneral2Collection())
+            for (GeneralCafe generalCafeCollectionGeneralCafe : users.getGeneralCafeCollection())
             {
-                Users oldIdUserOfGeneral2CollectionGeneral2 = general2CollectionGeneral2.getIdUser();
-                general2CollectionGeneral2.setIdUser(users);
-                general2CollectionGeneral2 = em.merge(general2CollectionGeneral2);
-                if (oldIdUserOfGeneral2CollectionGeneral2 != null)
+                Users oldIdUserOfGeneralCafeCollectionGeneralCafe = generalCafeCollectionGeneralCafe.getIdUser();
+                generalCafeCollectionGeneralCafe.setIdUser(users);
+                generalCafeCollectionGeneralCafe = em.merge(generalCafeCollectionGeneralCafe);
+                if (oldIdUserOfGeneralCafeCollectionGeneralCafe != null)
                 {
-                    oldIdUserOfGeneral2CollectionGeneral2.getGeneral2Collection().remove(general2CollectionGeneral2);
-                    oldIdUserOfGeneral2CollectionGeneral2 = em.merge(oldIdUserOfGeneral2CollectionGeneral2);
+                    oldIdUserOfGeneralCafeCollectionGeneralCafe.getGeneralCafeCollection().remove(generalCafeCollectionGeneralCafe);
+                    oldIdUserOfGeneralCafeCollectionGeneralCafe = em.merge(oldIdUserOfGeneralCafeCollectionGeneralCafe);
                 }
             }
             em.getTransaction().commit();
@@ -109,79 +109,79 @@ public class UsersJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Users persistentUsers = em.find(Users.class, users.getIdUser());
-            Collection<General> generalCollectionOld = persistentUsers.getGeneralCollection();
-            Collection<General> generalCollectionNew = users.getGeneralCollection();
-            Collection<General2> general2CollectionOld = persistentUsers.getGeneral2Collection();
-            Collection<General2> general2CollectionNew = users.getGeneral2Collection();
+            Collection<GeneralTrade> generalTradeCollectionOld = persistentUsers.getGeneralTradeCollection();
+            Collection<GeneralTrade> generalTradeCollectionNew = users.getGeneralTradeCollection();
+            Collection<GeneralCafe> generalCafeCollectionOld = persistentUsers.getGeneralCafeCollection();
+            Collection<GeneralCafe> generalCafeCollectionNew = users.getGeneralCafeCollection();
             List<String> illegalOrphanMessages = null;
-            for (General generalCollectionOldGeneral : generalCollectionOld)
+            for (GeneralTrade generalTradeCollectionOldGeneralTrade : generalTradeCollectionOld)
             {
-                if (!generalCollectionNew.contains(generalCollectionOldGeneral))
+                if (!generalTradeCollectionNew.contains(generalTradeCollectionOldGeneralTrade))
                 {
                     if (illegalOrphanMessages == null)
                     {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain General " + generalCollectionOldGeneral + " since its idUser field is not nullable.");
+                    illegalOrphanMessages.add("You must retain GeneralTrade " + generalTradeCollectionOldGeneralTrade + " since its idUser field is not nullable.");
                 }
             }
-            for (General2 general2CollectionOldGeneral2 : general2CollectionOld)
+            for (GeneralCafe generalCafeCollectionOldGeneralCafe : generalCafeCollectionOld)
             {
-                if (!general2CollectionNew.contains(general2CollectionOldGeneral2))
+                if (!generalCafeCollectionNew.contains(generalCafeCollectionOldGeneralCafe))
                 {
                     if (illegalOrphanMessages == null)
                     {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain General2 " + general2CollectionOldGeneral2 + " since its idUser field is not nullable.");
+                    illegalOrphanMessages.add("You must retain GeneralCafe " + generalCafeCollectionOldGeneralCafe + " since its idUser field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null)
             {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Collection<General> attachedGeneralCollectionNew = new ArrayList<General>();
-            for (General generalCollectionNewGeneralToAttach : generalCollectionNew)
+            Collection<GeneralTrade> attachedGeneralTradeCollectionNew = new ArrayList<GeneralTrade>();
+            for (GeneralTrade generalTradeCollectionNewGeneralTradeToAttach : generalTradeCollectionNew)
             {
-                generalCollectionNewGeneralToAttach = em.getReference(generalCollectionNewGeneralToAttach.getClass(), generalCollectionNewGeneralToAttach.getIdUnion());
-                attachedGeneralCollectionNew.add(generalCollectionNewGeneralToAttach);
+                generalTradeCollectionNewGeneralTradeToAttach = em.getReference(generalTradeCollectionNewGeneralTradeToAttach.getClass(), generalTradeCollectionNewGeneralTradeToAttach.getIdUnion());
+                attachedGeneralTradeCollectionNew.add(generalTradeCollectionNewGeneralTradeToAttach);
             }
-            generalCollectionNew = attachedGeneralCollectionNew;
-            users.setGeneralCollection(generalCollectionNew);
-            Collection<General2> attachedGeneral2CollectionNew = new ArrayList<General2>();
-            for (General2 general2CollectionNewGeneral2ToAttach : general2CollectionNew)
+            generalTradeCollectionNew = attachedGeneralTradeCollectionNew;
+            users.setGeneralTradeCollection(generalTradeCollectionNew);
+            Collection<GeneralCafe> attachedGeneralCafeCollectionNew = new ArrayList<GeneralCafe>();
+            for (GeneralCafe generalCafeCollectionNewGeneralCafeToAttach : generalCafeCollectionNew)
             {
-                general2CollectionNewGeneral2ToAttach = em.getReference(general2CollectionNewGeneral2ToAttach.getClass(), general2CollectionNewGeneral2ToAttach.getIdUnion());
-                attachedGeneral2CollectionNew.add(general2CollectionNewGeneral2ToAttach);
+                generalCafeCollectionNewGeneralCafeToAttach = em.getReference(generalCafeCollectionNewGeneralCafeToAttach.getClass(), generalCafeCollectionNewGeneralCafeToAttach.getIdUnion());
+                attachedGeneralCafeCollectionNew.add(generalCafeCollectionNewGeneralCafeToAttach);
             }
-            general2CollectionNew = attachedGeneral2CollectionNew;
-            users.setGeneral2Collection(general2CollectionNew);
+            generalCafeCollectionNew = attachedGeneralCafeCollectionNew;
+            users.setGeneralCafeCollection(generalCafeCollectionNew);
             users = em.merge(users);
-            for (General generalCollectionNewGeneral : generalCollectionNew)
+            for (GeneralTrade generalTradeCollectionNewGeneralTrade : generalTradeCollectionNew)
             {
-                if (!generalCollectionOld.contains(generalCollectionNewGeneral))
+                if (!generalTradeCollectionOld.contains(generalTradeCollectionNewGeneralTrade))
                 {
-                    Users oldIdUserOfGeneralCollectionNewGeneral = generalCollectionNewGeneral.getIdUser();
-                    generalCollectionNewGeneral.setIdUser(users);
-                    generalCollectionNewGeneral = em.merge(generalCollectionNewGeneral);
-                    if (oldIdUserOfGeneralCollectionNewGeneral != null && !oldIdUserOfGeneralCollectionNewGeneral.equals(users))
+                    Users oldIdUserOfGeneralTradeCollectionNewGeneralTrade = generalTradeCollectionNewGeneralTrade.getIdUser();
+                    generalTradeCollectionNewGeneralTrade.setIdUser(users);
+                    generalTradeCollectionNewGeneralTrade = em.merge(generalTradeCollectionNewGeneralTrade);
+                    if (oldIdUserOfGeneralTradeCollectionNewGeneralTrade != null && !oldIdUserOfGeneralTradeCollectionNewGeneralTrade.equals(users))
                     {
-                        oldIdUserOfGeneralCollectionNewGeneral.getGeneralCollection().remove(generalCollectionNewGeneral);
-                        oldIdUserOfGeneralCollectionNewGeneral = em.merge(oldIdUserOfGeneralCollectionNewGeneral);
+                        oldIdUserOfGeneralTradeCollectionNewGeneralTrade.getGeneralTradeCollection().remove(generalTradeCollectionNewGeneralTrade);
+                        oldIdUserOfGeneralTradeCollectionNewGeneralTrade = em.merge(oldIdUserOfGeneralTradeCollectionNewGeneralTrade);
                     }
                 }
             }
-            for (General2 general2CollectionNewGeneral2 : general2CollectionNew)
+            for (GeneralCafe generalCafeCollectionNewGeneralCafe : generalCafeCollectionNew)
             {
-                if (!general2CollectionOld.contains(general2CollectionNewGeneral2))
+                if (!generalCafeCollectionOld.contains(generalCafeCollectionNewGeneralCafe))
                 {
-                    Users oldIdUserOfGeneral2CollectionNewGeneral2 = general2CollectionNewGeneral2.getIdUser();
-                    general2CollectionNewGeneral2.setIdUser(users);
-                    general2CollectionNewGeneral2 = em.merge(general2CollectionNewGeneral2);
-                    if (oldIdUserOfGeneral2CollectionNewGeneral2 != null && !oldIdUserOfGeneral2CollectionNewGeneral2.equals(users))
+                    Users oldIdUserOfGeneralCafeCollectionNewGeneralCafe = generalCafeCollectionNewGeneralCafe.getIdUser();
+                    generalCafeCollectionNewGeneralCafe.setIdUser(users);
+                    generalCafeCollectionNewGeneralCafe = em.merge(generalCafeCollectionNewGeneralCafe);
+                    if (oldIdUserOfGeneralCafeCollectionNewGeneralCafe != null && !oldIdUserOfGeneralCafeCollectionNewGeneralCafe.equals(users))
                     {
-                        oldIdUserOfGeneral2CollectionNewGeneral2.getGeneral2Collection().remove(general2CollectionNewGeneral2);
-                        oldIdUserOfGeneral2CollectionNewGeneral2 = em.merge(oldIdUserOfGeneral2CollectionNewGeneral2);
+                        oldIdUserOfGeneralCafeCollectionNewGeneralCafe.getGeneralCafeCollection().remove(generalCafeCollectionNewGeneralCafe);
+                        oldIdUserOfGeneralCafeCollectionNewGeneralCafe = em.merge(oldIdUserOfGeneralCafeCollectionNewGeneralCafe);
                     }
                 }
             }
@@ -227,23 +227,23 @@ public class UsersJpaController implements Serializable {
                 throw new NonexistentEntityException("The users with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<General> generalCollectionOrphanCheck = users.getGeneralCollection();
-            for (General generalCollectionOrphanCheckGeneral : generalCollectionOrphanCheck)
+            Collection<GeneralTrade> generalTradeCollectionOrphanCheck = users.getGeneralTradeCollection();
+            for (GeneralTrade generalTradeCollectionOrphanCheckGeneralTrade : generalTradeCollectionOrphanCheck)
             {
                 if (illegalOrphanMessages == null)
                 {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the General " + generalCollectionOrphanCheckGeneral + " in its generalCollection field has a non-nullable idUser field.");
+                illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the GeneralTrade " + generalTradeCollectionOrphanCheckGeneralTrade + " in its generalTradeCollection field has a non-nullable idUser field.");
             }
-            Collection<General2> general2CollectionOrphanCheck = users.getGeneral2Collection();
-            for (General2 general2CollectionOrphanCheckGeneral2 : general2CollectionOrphanCheck)
+            Collection<GeneralCafe> generalCafeCollectionOrphanCheck = users.getGeneralCafeCollection();
+            for (GeneralCafe generalCafeCollectionOrphanCheckGeneralCafe : generalCafeCollectionOrphanCheck)
             {
                 if (illegalOrphanMessages == null)
                 {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the General2 " + general2CollectionOrphanCheckGeneral2 + " in its general2Collection field has a non-nullable idUser field.");
+                illegalOrphanMessages.add("This Users (" + users + ") cannot be destroyed since the GeneralCafe " + generalCafeCollectionOrphanCheckGeneralCafe + " in its generalCafeCollection field has a non-nullable idUser field.");
             }
             if (illegalOrphanMessages != null)
             {

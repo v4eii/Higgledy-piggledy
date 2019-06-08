@@ -10,10 +10,10 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import administration.entity.General;
+import administration.entity.GeneralTrade;
 import java.util.ArrayList;
 import java.util.Collection;
-import administration.entity.General2;
+import administration.entity.GeneralCafe;
 import administration.entity.Specialization;
 import administration.entity.controllers.exceptions.IllegalOrphanException;
 import administration.entity.controllers.exceptions.NonexistentEntityException;
@@ -40,54 +40,54 @@ public class SpecializationJpaController implements Serializable {
 
     public void create(Specialization specialization)
     {
-        if (specialization.getGeneralCollection() == null)
+        if (specialization.getGeneralTradeCollection() == null)
         {
-            specialization.setGeneralCollection(new ArrayList<General>());
+            specialization.setGeneralTradeCollection(new ArrayList<GeneralTrade>());
         }
-        if (specialization.getGeneral2Collection() == null)
+        if (specialization.getGeneralCafeCollection() == null)
         {
-            specialization.setGeneral2Collection(new ArrayList<General2>());
+            specialization.setGeneralCafeCollection(new ArrayList<GeneralCafe>());
         }
         EntityManager em = null;
         try
         {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<General> attachedGeneralCollection = new ArrayList<General>();
-            for (General generalCollectionGeneralToAttach : specialization.getGeneralCollection())
+            Collection<GeneralTrade> attachedGeneralTradeCollection = new ArrayList<GeneralTrade>();
+            for (GeneralTrade generalTradeCollectionGeneralTradeToAttach : specialization.getGeneralTradeCollection())
             {
-                generalCollectionGeneralToAttach = em.getReference(generalCollectionGeneralToAttach.getClass(), generalCollectionGeneralToAttach.getIdUnion());
-                attachedGeneralCollection.add(generalCollectionGeneralToAttach);
+                generalTradeCollectionGeneralTradeToAttach = em.getReference(generalTradeCollectionGeneralTradeToAttach.getClass(), generalTradeCollectionGeneralTradeToAttach.getIdUnion());
+                attachedGeneralTradeCollection.add(generalTradeCollectionGeneralTradeToAttach);
             }
-            specialization.setGeneralCollection(attachedGeneralCollection);
-            Collection<General2> attachedGeneral2Collection = new ArrayList<General2>();
-            for (General2 general2CollectionGeneral2ToAttach : specialization.getGeneral2Collection())
+            specialization.setGeneralTradeCollection(attachedGeneralTradeCollection);
+            Collection<GeneralCafe> attachedGeneralCafeCollection = new ArrayList<GeneralCafe>();
+            for (GeneralCafe generalCafeCollectionGeneralCafeToAttach : specialization.getGeneralCafeCollection())
             {
-                general2CollectionGeneral2ToAttach = em.getReference(general2CollectionGeneral2ToAttach.getClass(), general2CollectionGeneral2ToAttach.getIdUnion());
-                attachedGeneral2Collection.add(general2CollectionGeneral2ToAttach);
+                generalCafeCollectionGeneralCafeToAttach = em.getReference(generalCafeCollectionGeneralCafeToAttach.getClass(), generalCafeCollectionGeneralCafeToAttach.getIdUnion());
+                attachedGeneralCafeCollection.add(generalCafeCollectionGeneralCafeToAttach);
             }
-            specialization.setGeneral2Collection(attachedGeneral2Collection);
+            specialization.setGeneralCafeCollection(attachedGeneralCafeCollection);
             em.persist(specialization);
-            for (General generalCollectionGeneral : specialization.getGeneralCollection())
+            for (GeneralTrade generalTradeCollectionGeneralTrade : specialization.getGeneralTradeCollection())
             {
-                Specialization oldIdSpecOfGeneralCollectionGeneral = generalCollectionGeneral.getIdSpec();
-                generalCollectionGeneral.setIdSpec(specialization);
-                generalCollectionGeneral = em.merge(generalCollectionGeneral);
-                if (oldIdSpecOfGeneralCollectionGeneral != null)
+                Specialization oldIdSpecOfGeneralTradeCollectionGeneralTrade = generalTradeCollectionGeneralTrade.getIdSpec();
+                generalTradeCollectionGeneralTrade.setIdSpec(specialization);
+                generalTradeCollectionGeneralTrade = em.merge(generalTradeCollectionGeneralTrade);
+                if (oldIdSpecOfGeneralTradeCollectionGeneralTrade != null)
                 {
-                    oldIdSpecOfGeneralCollectionGeneral.getGeneralCollection().remove(generalCollectionGeneral);
-                    oldIdSpecOfGeneralCollectionGeneral = em.merge(oldIdSpecOfGeneralCollectionGeneral);
+                    oldIdSpecOfGeneralTradeCollectionGeneralTrade.getGeneralTradeCollection().remove(generalTradeCollectionGeneralTrade);
+                    oldIdSpecOfGeneralTradeCollectionGeneralTrade = em.merge(oldIdSpecOfGeneralTradeCollectionGeneralTrade);
                 }
             }
-            for (General2 general2CollectionGeneral2 : specialization.getGeneral2Collection())
+            for (GeneralCafe generalCafeCollectionGeneralCafe : specialization.getGeneralCafeCollection())
             {
-                Specialization oldIdSpecOfGeneral2CollectionGeneral2 = general2CollectionGeneral2.getIdSpec();
-                general2CollectionGeneral2.setIdSpec(specialization);
-                general2CollectionGeneral2 = em.merge(general2CollectionGeneral2);
-                if (oldIdSpecOfGeneral2CollectionGeneral2 != null)
+                Specialization oldIdSpecOfGeneralCafeCollectionGeneralCafe = generalCafeCollectionGeneralCafe.getIdSpec();
+                generalCafeCollectionGeneralCafe.setIdSpec(specialization);
+                generalCafeCollectionGeneralCafe = em.merge(generalCafeCollectionGeneralCafe);
+                if (oldIdSpecOfGeneralCafeCollectionGeneralCafe != null)
                 {
-                    oldIdSpecOfGeneral2CollectionGeneral2.getGeneral2Collection().remove(general2CollectionGeneral2);
-                    oldIdSpecOfGeneral2CollectionGeneral2 = em.merge(oldIdSpecOfGeneral2CollectionGeneral2);
+                    oldIdSpecOfGeneralCafeCollectionGeneralCafe.getGeneralCafeCollection().remove(generalCafeCollectionGeneralCafe);
+                    oldIdSpecOfGeneralCafeCollectionGeneralCafe = em.merge(oldIdSpecOfGeneralCafeCollectionGeneralCafe);
                 }
             }
             em.getTransaction().commit();
@@ -109,79 +109,79 @@ public class SpecializationJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Specialization persistentSpecialization = em.find(Specialization.class, specialization.getIdSpec());
-            Collection<General> generalCollectionOld = persistentSpecialization.getGeneralCollection();
-            Collection<General> generalCollectionNew = specialization.getGeneralCollection();
-            Collection<General2> general2CollectionOld = persistentSpecialization.getGeneral2Collection();
-            Collection<General2> general2CollectionNew = specialization.getGeneral2Collection();
+            Collection<GeneralTrade> generalTradeCollectionOld = persistentSpecialization.getGeneralTradeCollection();
+            Collection<GeneralTrade> generalTradeCollectionNew = specialization.getGeneralTradeCollection();
+            Collection<GeneralCafe> generalCafeCollectionOld = persistentSpecialization.getGeneralCafeCollection();
+            Collection<GeneralCafe> generalCafeCollectionNew = specialization.getGeneralCafeCollection();
             List<String> illegalOrphanMessages = null;
-            for (General generalCollectionOldGeneral : generalCollectionOld)
+            for (GeneralTrade generalTradeCollectionOldGeneralTrade : generalTradeCollectionOld)
             {
-                if (!generalCollectionNew.contains(generalCollectionOldGeneral))
+                if (!generalTradeCollectionNew.contains(generalTradeCollectionOldGeneralTrade))
                 {
                     if (illegalOrphanMessages == null)
                     {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain General " + generalCollectionOldGeneral + " since its idSpec field is not nullable.");
+                    illegalOrphanMessages.add("You must retain GeneralTrade " + generalTradeCollectionOldGeneralTrade + " since its idSpec field is not nullable.");
                 }
             }
-            for (General2 general2CollectionOldGeneral2 : general2CollectionOld)
+            for (GeneralCafe generalCafeCollectionOldGeneralCafe : generalCafeCollectionOld)
             {
-                if (!general2CollectionNew.contains(general2CollectionOldGeneral2))
+                if (!generalCafeCollectionNew.contains(generalCafeCollectionOldGeneralCafe))
                 {
                     if (illegalOrphanMessages == null)
                     {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain General2 " + general2CollectionOldGeneral2 + " since its idSpec field is not nullable.");
+                    illegalOrphanMessages.add("You must retain GeneralCafe " + generalCafeCollectionOldGeneralCafe + " since its idSpec field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null)
             {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Collection<General> attachedGeneralCollectionNew = new ArrayList<General>();
-            for (General generalCollectionNewGeneralToAttach : generalCollectionNew)
+            Collection<GeneralTrade> attachedGeneralTradeCollectionNew = new ArrayList<GeneralTrade>();
+            for (GeneralTrade generalTradeCollectionNewGeneralTradeToAttach : generalTradeCollectionNew)
             {
-                generalCollectionNewGeneralToAttach = em.getReference(generalCollectionNewGeneralToAttach.getClass(), generalCollectionNewGeneralToAttach.getIdUnion());
-                attachedGeneralCollectionNew.add(generalCollectionNewGeneralToAttach);
+                generalTradeCollectionNewGeneralTradeToAttach = em.getReference(generalTradeCollectionNewGeneralTradeToAttach.getClass(), generalTradeCollectionNewGeneralTradeToAttach.getIdUnion());
+                attachedGeneralTradeCollectionNew.add(generalTradeCollectionNewGeneralTradeToAttach);
             }
-            generalCollectionNew = attachedGeneralCollectionNew;
-            specialization.setGeneralCollection(generalCollectionNew);
-            Collection<General2> attachedGeneral2CollectionNew = new ArrayList<General2>();
-            for (General2 general2CollectionNewGeneral2ToAttach : general2CollectionNew)
+            generalTradeCollectionNew = attachedGeneralTradeCollectionNew;
+            specialization.setGeneralTradeCollection(generalTradeCollectionNew);
+            Collection<GeneralCafe> attachedGeneralCafeCollectionNew = new ArrayList<GeneralCafe>();
+            for (GeneralCafe generalCafeCollectionNewGeneralCafeToAttach : generalCafeCollectionNew)
             {
-                general2CollectionNewGeneral2ToAttach = em.getReference(general2CollectionNewGeneral2ToAttach.getClass(), general2CollectionNewGeneral2ToAttach.getIdUnion());
-                attachedGeneral2CollectionNew.add(general2CollectionNewGeneral2ToAttach);
+                generalCafeCollectionNewGeneralCafeToAttach = em.getReference(generalCafeCollectionNewGeneralCafeToAttach.getClass(), generalCafeCollectionNewGeneralCafeToAttach.getIdUnion());
+                attachedGeneralCafeCollectionNew.add(generalCafeCollectionNewGeneralCafeToAttach);
             }
-            general2CollectionNew = attachedGeneral2CollectionNew;
-            specialization.setGeneral2Collection(general2CollectionNew);
+            generalCafeCollectionNew = attachedGeneralCafeCollectionNew;
+            specialization.setGeneralCafeCollection(generalCafeCollectionNew);
             specialization = em.merge(specialization);
-            for (General generalCollectionNewGeneral : generalCollectionNew)
+            for (GeneralTrade generalTradeCollectionNewGeneralTrade : generalTradeCollectionNew)
             {
-                if (!generalCollectionOld.contains(generalCollectionNewGeneral))
+                if (!generalTradeCollectionOld.contains(generalTradeCollectionNewGeneralTrade))
                 {
-                    Specialization oldIdSpecOfGeneralCollectionNewGeneral = generalCollectionNewGeneral.getIdSpec();
-                    generalCollectionNewGeneral.setIdSpec(specialization);
-                    generalCollectionNewGeneral = em.merge(generalCollectionNewGeneral);
-                    if (oldIdSpecOfGeneralCollectionNewGeneral != null && !oldIdSpecOfGeneralCollectionNewGeneral.equals(specialization))
+                    Specialization oldIdSpecOfGeneralTradeCollectionNewGeneralTrade = generalTradeCollectionNewGeneralTrade.getIdSpec();
+                    generalTradeCollectionNewGeneralTrade.setIdSpec(specialization);
+                    generalTradeCollectionNewGeneralTrade = em.merge(generalTradeCollectionNewGeneralTrade);
+                    if (oldIdSpecOfGeneralTradeCollectionNewGeneralTrade != null && !oldIdSpecOfGeneralTradeCollectionNewGeneralTrade.equals(specialization))
                     {
-                        oldIdSpecOfGeneralCollectionNewGeneral.getGeneralCollection().remove(generalCollectionNewGeneral);
-                        oldIdSpecOfGeneralCollectionNewGeneral = em.merge(oldIdSpecOfGeneralCollectionNewGeneral);
+                        oldIdSpecOfGeneralTradeCollectionNewGeneralTrade.getGeneralTradeCollection().remove(generalTradeCollectionNewGeneralTrade);
+                        oldIdSpecOfGeneralTradeCollectionNewGeneralTrade = em.merge(oldIdSpecOfGeneralTradeCollectionNewGeneralTrade);
                     }
                 }
             }
-            for (General2 general2CollectionNewGeneral2 : general2CollectionNew)
+            for (GeneralCafe generalCafeCollectionNewGeneralCafe : generalCafeCollectionNew)
             {
-                if (!general2CollectionOld.contains(general2CollectionNewGeneral2))
+                if (!generalCafeCollectionOld.contains(generalCafeCollectionNewGeneralCafe))
                 {
-                    Specialization oldIdSpecOfGeneral2CollectionNewGeneral2 = general2CollectionNewGeneral2.getIdSpec();
-                    general2CollectionNewGeneral2.setIdSpec(specialization);
-                    general2CollectionNewGeneral2 = em.merge(general2CollectionNewGeneral2);
-                    if (oldIdSpecOfGeneral2CollectionNewGeneral2 != null && !oldIdSpecOfGeneral2CollectionNewGeneral2.equals(specialization))
+                    Specialization oldIdSpecOfGeneralCafeCollectionNewGeneralCafe = generalCafeCollectionNewGeneralCafe.getIdSpec();
+                    generalCafeCollectionNewGeneralCafe.setIdSpec(specialization);
+                    generalCafeCollectionNewGeneralCafe = em.merge(generalCafeCollectionNewGeneralCafe);
+                    if (oldIdSpecOfGeneralCafeCollectionNewGeneralCafe != null && !oldIdSpecOfGeneralCafeCollectionNewGeneralCafe.equals(specialization))
                     {
-                        oldIdSpecOfGeneral2CollectionNewGeneral2.getGeneral2Collection().remove(general2CollectionNewGeneral2);
-                        oldIdSpecOfGeneral2CollectionNewGeneral2 = em.merge(oldIdSpecOfGeneral2CollectionNewGeneral2);
+                        oldIdSpecOfGeneralCafeCollectionNewGeneralCafe.getGeneralCafeCollection().remove(generalCafeCollectionNewGeneralCafe);
+                        oldIdSpecOfGeneralCafeCollectionNewGeneralCafe = em.merge(oldIdSpecOfGeneralCafeCollectionNewGeneralCafe);
                     }
                 }
             }
@@ -227,23 +227,23 @@ public class SpecializationJpaController implements Serializable {
                 throw new NonexistentEntityException("The specialization with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<General> generalCollectionOrphanCheck = specialization.getGeneralCollection();
-            for (General generalCollectionOrphanCheckGeneral : generalCollectionOrphanCheck)
+            Collection<GeneralTrade> generalTradeCollectionOrphanCheck = specialization.getGeneralTradeCollection();
+            for (GeneralTrade generalTradeCollectionOrphanCheckGeneralTrade : generalTradeCollectionOrphanCheck)
             {
                 if (illegalOrphanMessages == null)
                 {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Specialization (" + specialization + ") cannot be destroyed since the General " + generalCollectionOrphanCheckGeneral + " in its generalCollection field has a non-nullable idSpec field.");
+                illegalOrphanMessages.add("This Specialization (" + specialization + ") cannot be destroyed since the GeneralTrade " + generalTradeCollectionOrphanCheckGeneralTrade + " in its generalTradeCollection field has a non-nullable idSpec field.");
             }
-            Collection<General2> general2CollectionOrphanCheck = specialization.getGeneral2Collection();
-            for (General2 general2CollectionOrphanCheckGeneral2 : general2CollectionOrphanCheck)
+            Collection<GeneralCafe> generalCafeCollectionOrphanCheck = specialization.getGeneralCafeCollection();
+            for (GeneralCafe generalCafeCollectionOrphanCheckGeneralCafe : generalCafeCollectionOrphanCheck)
             {
                 if (illegalOrphanMessages == null)
                 {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Specialization (" + specialization + ") cannot be destroyed since the General2 " + general2CollectionOrphanCheckGeneral2 + " in its general2Collection field has a non-nullable idSpec field.");
+                illegalOrphanMessages.add("This Specialization (" + specialization + ") cannot be destroyed since the GeneralCafe " + generalCafeCollectionOrphanCheckGeneralCafe + " in its generalCafeCollection field has a non-nullable idSpec field.");
             }
             if (illegalOrphanMessages != null)
             {

@@ -12,7 +12,11 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import administration.entity.Region;
+import administration.entity.Street;
+import administration.entity.controllers.exceptions.IllegalOrphanException;
 import administration.entity.controllers.exceptions.NonexistentEntityException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,6 +40,10 @@ public class CityJpaController implements Serializable {
 
     public void create(City city)
     {
+        if (city.getStreetCollection() == null)
+        {
+            city.setStreetCollection(new ArrayList<Street>());
+        }
         EntityManager em = null;
         try
         {
@@ -47,11 +55,29 @@ public class CityJpaController implements Serializable {
                 idReg = em.getReference(idReg.getClass(), idReg.getIdReg());
                 city.setIdReg(idReg);
             }
+            Collection<Street> attachedStreetCollection = new ArrayList<Street>();
+            for (Street streetCollectionStreetToAttach : city.getStreetCollection())
+            {
+                streetCollectionStreetToAttach = em.getReference(streetCollectionStreetToAttach.getClass(), streetCollectionStreetToAttach.getIdAdr());
+                attachedStreetCollection.add(streetCollectionStreetToAttach);
+            }
+            city.setStreetCollection(attachedStreetCollection);
             em.persist(city);
             if (idReg != null)
             {
                 idReg.getCityCollection().add(city);
                 idReg = em.merge(idReg);
+            }
+            for (Street streetCollectionStreet : city.getStreetCollection())
+            {
+                City oldIdCityOfStreetCollectionStreet = streetCollectionStreet.getIdCity();
+                streetCollectionStreet.setIdCity(city);
+                streetCollectionStreet = em.merge(streetCollectionStreet);
+                if (oldIdCityOfStreetCollectionStreet != null)
+                {
+                    oldIdCityOfStreetCollectionStreet.getStreetCollection().remove(streetCollectionStreet);
+                    oldIdCityOfStreetCollectionStreet = em.merge(oldIdCityOfStreetCollectionStreet);
+                }
             }
             em.getTransaction().commit();
         }
@@ -64,7 +90,7 @@ public class CityJpaController implements Serializable {
         }
     }
 
-    public void edit(City city) throws NonexistentEntityException, Exception
+    public void edit(City city) throws IllegalOrphanException, NonexistentEntityException, Exception
     {
         EntityManager em = null;
         try
@@ -74,11 +100,37 @@ public class CityJpaController implements Serializable {
             City persistentCity = em.find(City.class, city.getIdCity());
             Region idRegOld = persistentCity.getIdReg();
             Region idRegNew = city.getIdReg();
+            Collection<Street> streetCollectionOld = persistentCity.getStreetCollection();
+            Collection<Street> streetCollectionNew = city.getStreetCollection();
+            List<String> illegalOrphanMessages = null;
+            for (Street streetCollectionOldStreet : streetCollectionOld)
+            {
+                if (!streetCollectionNew.contains(streetCollectionOldStreet))
+                {
+                    if (illegalOrphanMessages == null)
+                    {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Street " + streetCollectionOldStreet + " since its idCity field is not nullable.");
+                }
+            }
+            if (illegalOrphanMessages != null)
+            {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             if (idRegNew != null)
             {
                 idRegNew = em.getReference(idRegNew.getClass(), idRegNew.getIdReg());
                 city.setIdReg(idRegNew);
             }
+            Collection<Street> attachedStreetCollectionNew = new ArrayList<Street>();
+            for (Street streetCollectionNewStreetToAttach : streetCollectionNew)
+            {
+                streetCollectionNewStreetToAttach = em.getReference(streetCollectionNewStreetToAttach.getClass(), streetCollectionNewStreetToAttach.getIdAdr());
+                attachedStreetCollectionNew.add(streetCollectionNewStreetToAttach);
+            }
+            streetCollectionNew = attachedStreetCollectionNew;
+            city.setStreetCollection(streetCollectionNew);
             city = em.merge(city);
             if (idRegOld != null && !idRegOld.equals(idRegNew))
             {
@@ -89,6 +141,20 @@ public class CityJpaController implements Serializable {
             {
                 idRegNew.getCityCollection().add(city);
                 idRegNew = em.merge(idRegNew);
+            }
+            for (Street streetCollectionNewStreet : streetCollectionNew)
+            {
+                if (!streetCollectionOld.contains(streetCollectionNewStreet))
+                {
+                    City oldIdCityOfStreetCollectionNewStreet = streetCollectionNewStreet.getIdCity();
+                    streetCollectionNewStreet.setIdCity(city);
+                    streetCollectionNewStreet = em.merge(streetCollectionNewStreet);
+                    if (oldIdCityOfStreetCollectionNewStreet != null && !oldIdCityOfStreetCollectionNewStreet.equals(city))
+                    {
+                        oldIdCityOfStreetCollectionNewStreet.getStreetCollection().remove(streetCollectionNewStreet);
+                        oldIdCityOfStreetCollectionNewStreet = em.merge(oldIdCityOfStreetCollectionNewStreet);
+                    }
+                }
             }
             em.getTransaction().commit();
         }
@@ -114,7 +180,7 @@ public class CityJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException
     {
         EntityManager em = null;
         try
@@ -130,6 +196,20 @@ public class CityJpaController implements Serializable {
             catch (EntityNotFoundException enfe)
             {
                 throw new NonexistentEntityException("The city with id " + id + " no longer exists.", enfe);
+            }
+            List<String> illegalOrphanMessages = null;
+            Collection<Street> streetCollectionOrphanCheck = city.getStreetCollection();
+            for (Street streetCollectionOrphanCheckStreet : streetCollectionOrphanCheck)
+            {
+                if (illegalOrphanMessages == null)
+                {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This City (" + city + ") cannot be destroyed since the Street " + streetCollectionOrphanCheckStreet + " in its streetCollection field has a non-nullable idCity field.");
+            }
+            if (illegalOrphanMessages != null)
+            {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Region idReg = city.getIdReg();
             if (idReg != null)

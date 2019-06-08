@@ -10,6 +10,8 @@
     <class>administration.entity.Specialization</class>
     <class>administration.entity.Street</class>
     <class>administration.entity.Statement</class>
+    <class>administration.entity.GeneralTrade</class>
+    <class>administration.entity.GeneralCafe</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hackaton?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

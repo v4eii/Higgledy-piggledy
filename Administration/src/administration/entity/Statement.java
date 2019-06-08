@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -42,10 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Statement.findByDateINN", query = "SELECT s FROM Statement s WHERE s.dateINN = :dateINN"),
     @NamedQuery(name = "Statement.findByContact", query = "SELECT s FROM Statement s WHERE s.contact = :contact"),
     @NamedQuery(name = "Statement.findByHouse", query = "SELECT s FROM Statement s WHERE s.house = :house"),
-    @NamedQuery(name = "Statement.findByApartment", query = "SELECT s FROM Statement s WHERE s.apartment = :apartment"),
-    @NamedQuery(name = "Statement.findByIdAdr", query = "SELECT s FROM Statement s WHERE s.idAdr = :idAdr"),
-    @NamedQuery(name = "Statement.findByIdCity", query = "SELECT s FROM Statement s WHERE s.idCity = :idCity"),
-    @NamedQuery(name = "Statement.findByIdReg", query = "SELECT s FROM Statement s WHERE s.idReg = :idReg")
+    @NamedQuery(name = "Statement.findByApartment", query = "SELECT s FROM Statement s WHERE s.apartment = :apartment")
 })
 public class Statement implements Serializable {
 
@@ -67,17 +66,13 @@ public class Statement implements Serializable {
     private String contact;
     private String house;
     private String apartment;
-    @Basic(optional = false)
-    @Column(name = "id_adr")
-    private int idAdr;
-    @Column(name = "id_city")
-    private Integer idCity;
-    @Column(name = "id_reg")
-    private Integer idReg;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSt")
-    private Collection<General> generalCollection;
+    private Collection<GeneralTrade> generalTradeCollection;
+    @JoinColumn(name = "id_adr", referencedColumnName = "id_adr")
+    @ManyToOne(optional = false)
+    private Street idAdr;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSt")
-    private Collection<General2> general2Collection;
+    private Collection<GeneralCafe> generalCafeCollection;
 
     public Statement()
     {
@@ -86,12 +81,6 @@ public class Statement implements Serializable {
     public Statement(Integer idSt)
     {
         this.idSt = idSt;
-    }
-
-    public Statement(Integer idSt, int idAdr)
-    {
-        this.idSt = idSt;
-        this.idAdr = idAdr;
     }
 
     public Integer getIdSt()
@@ -184,56 +173,36 @@ public class Statement implements Serializable {
         this.apartment = apartment;
     }
 
-    public int getIdAdr()
+    @XmlTransient
+    public Collection<GeneralTrade> getGeneralTradeCollection()
+    {
+        return generalTradeCollection;
+    }
+
+    public void setGeneralTradeCollection(Collection<GeneralTrade> generalTradeCollection)
+    {
+        this.generalTradeCollection = generalTradeCollection;
+    }
+
+    public Street getIdAdr()
     {
         return idAdr;
     }
 
-    public void setIdAdr(int idAdr)
+    public void setIdAdr(Street idAdr)
     {
         this.idAdr = idAdr;
     }
 
-    public Integer getIdCity()
-    {
-        return idCity;
-    }
-
-    public void setIdCity(Integer idCity)
-    {
-        this.idCity = idCity;
-    }
-
-    public Integer getIdReg()
-    {
-        return idReg;
-    }
-
-    public void setIdReg(Integer idReg)
-    {
-        this.idReg = idReg;
-    }
-
     @XmlTransient
-    public Collection<General> getGeneralCollection()
+    public Collection<GeneralCafe> getGeneralCafeCollection()
     {
-        return generalCollection;
+        return generalCafeCollection;
     }
 
-    public void setGeneralCollection(Collection<General> generalCollection)
+    public void setGeneralCafeCollection(Collection<GeneralCafe> generalCafeCollection)
     {
-        this.generalCollection = generalCollection;
-    }
-
-    @XmlTransient
-    public Collection<General2> getGeneral2Collection()
-    {
-        return general2Collection;
-    }
-
-    public void setGeneral2Collection(Collection<General2> general2Collection)
-    {
-        this.general2Collection = general2Collection;
+        this.generalCafeCollection = generalCafeCollection;
     }
 
     @Override

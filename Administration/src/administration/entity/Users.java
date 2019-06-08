@@ -51,9 +51,9 @@ public class Users implements Serializable {
     @Column(name = "user_password")
     private String userPassword;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUser")
-    private Collection<General> generalCollection;
+    private Collection<GeneralTrade> generalTradeCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUser")
-    private Collection<General2> general2Collection;
+    private Collection<GeneralCafe> generalCafeCollection;
 
     public Users()
     {
@@ -105,25 +105,25 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public Collection<General> getGeneralCollection()
+    public Collection<GeneralTrade> getGeneralTradeCollection()
     {
-        return generalCollection;
+        return generalTradeCollection;
     }
 
-    public void setGeneralCollection(Collection<General> generalCollection)
+    public void setGeneralTradeCollection(Collection<GeneralTrade> generalTradeCollection)
     {
-        this.generalCollection = generalCollection;
+        this.generalTradeCollection = generalTradeCollection;
     }
 
     @XmlTransient
-    public Collection<General2> getGeneral2Collection()
+    public Collection<GeneralCafe> getGeneralCafeCollection()
     {
-        return general2Collection;
+        return generalCafeCollection;
     }
 
-    public void setGeneral2Collection(Collection<General2> general2Collection)
+    public void setGeneralCafeCollection(Collection<GeneralCafe> generalCafeCollection)
     {
-        this.general2Collection = general2Collection;
+        this.generalCafeCollection = generalCafeCollection;
     }
 
     @Override

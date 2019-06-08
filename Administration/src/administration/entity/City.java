@@ -6,7 +6,9 @@
 package administration.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +18,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -44,6 +48,8 @@ public class City implements Serializable {
     @JoinColumn(name = "id_reg", referencedColumnName = "id_reg")
     @ManyToOne(optional = false)
     private Region idReg;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCity")
+    private Collection<Street> streetCollection;
 
     public City()
     {
@@ -82,6 +88,17 @@ public class City implements Serializable {
     public void setIdReg(Region idReg)
     {
         this.idReg = idReg;
+    }
+
+    @XmlTransient
+    public Collection<Street> getStreetCollection()
+    {
+        return streetCollection;
+    }
+
+    public void setStreetCollection(Collection<Street> streetCollection)
+    {
+        this.streetCollection = streetCollection;
     }
 
     @Override

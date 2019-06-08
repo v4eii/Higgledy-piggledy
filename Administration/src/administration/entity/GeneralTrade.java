@@ -27,24 +27,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author мвидео
  */
 @Entity
-@Table(catalog = "hackaton", schema = "")
+@Table(name = "general_trade", catalog = "hackaton", schema = "")
 @XmlRootElement
 @NamedQueries(
 {
-    @NamedQuery(name = "General.findAll", query = "SELECT g FROM General g"),
-    @NamedQuery(name = "General.findByIdUnion", query = "SELECT g FROM General g WHERE g.idUnion = :idUnion"),
-    @NamedQuery(name = "General.findByTimeFirst", query = "SELECT g FROM General g WHERE g.timeFirst = :timeFirst"),
-    @NamedQuery(name = "General.findByTimeLast", query = "SELECT g FROM General g WHERE g.timeLast = :timeLast"),
-    @NamedQuery(name = "General.findByChekFlag", query = "SELECT g FROM General g WHERE g.chekFlag = :chekFlag"),
-    @NamedQuery(name = "General.findByDateCreate", query = "SELECT g FROM General g WHERE g.dateCreate = :dateCreate"),
-    @NamedQuery(name = "General.findByDateEnd", query = "SELECT g FROM General g WHERE g.dateEnd = :dateEnd"),
-    @NamedQuery(name = "General.findByHouse", query = "SELECT g FROM General g WHERE g.house = :house"),
-    @NamedQuery(name = "General.findByApartment", query = "SELECT g FROM General g WHERE g.apartment = :apartment"),
-    @NamedQuery(name = "General.findByIdAdr", query = "SELECT g FROM General g WHERE g.idAdr = :idAdr"),
-    @NamedQuery(name = "General.findByIdCity", query = "SELECT g FROM General g WHERE g.idCity = :idCity"),
-    @NamedQuery(name = "General.findByIdReg", query = "SELECT g FROM General g WHERE g.idReg = :idReg")
+    @NamedQuery(name = "GeneralTrade.findAll", query = "SELECT g FROM GeneralTrade g"),
+    @NamedQuery(name = "GeneralTrade.findByIdUnion", query = "SELECT g FROM GeneralTrade g WHERE g.idUnion = :idUnion"),
+    @NamedQuery(name = "GeneralTrade.findByTimeFirst", query = "SELECT g FROM GeneralTrade g WHERE g.timeFirst = :timeFirst"),
+    @NamedQuery(name = "GeneralTrade.findByTimeLast", query = "SELECT g FROM GeneralTrade g WHERE g.timeLast = :timeLast"),
+    @NamedQuery(name = "GeneralTrade.findByChekFlag", query = "SELECT g FROM GeneralTrade g WHERE g.chekFlag = :chekFlag"),
+    @NamedQuery(name = "GeneralTrade.findByDateCreate", query = "SELECT g FROM GeneralTrade g WHERE g.dateCreate = :dateCreate"),
+    @NamedQuery(name = "GeneralTrade.findByDateEnd", query = "SELECT g FROM GeneralTrade g WHERE g.dateEnd = :dateEnd"),
+    @NamedQuery(name = "GeneralTrade.findByHouse", query = "SELECT g FROM GeneralTrade g WHERE g.house = :house"),
+    @NamedQuery(name = "GeneralTrade.findByApartment", query = "SELECT g FROM GeneralTrade g WHERE g.apartment = :apartment")
 })
-public class General implements Serializable {
+public class GeneralTrade implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -68,40 +65,26 @@ public class General implements Serializable {
     private Date dateEnd;
     private String house;
     private String apartment;
-    @Basic(optional = false)
-    @Column(name = "id_adr")
-    private int idAdr;
-    @Basic(optional = false)
-    @Column(name = "id_city")
-    private int idCity;
-    @Basic(optional = false)
-    @Column(name = "id_reg")
-    private int idReg;
-    @JoinColumn(name = "id_spec", referencedColumnName = "id_spec")
-    @ManyToOne(optional = false)
-    private Specialization idSpec;
-    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
-    @ManyToOne(optional = false)
-    private Users idUser;
     @JoinColumn(name = "id_st", referencedColumnName = "id_st")
     @ManyToOne(optional = false)
     private Statement idSt;
+    @JoinColumn(name = "id_adr", referencedColumnName = "id_adr")
+    @ManyToOne(optional = false)
+    private Street idAdr;
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
+    @ManyToOne(optional = false)
+    private Users idUser;
+    @JoinColumn(name = "id_spec", referencedColumnName = "id_spec")
+    @ManyToOne(optional = false)
+    private Specialization idSpec;
 
-    public General()
+    public GeneralTrade()
     {
     }
 
-    public General(Integer idUnion)
+    public GeneralTrade(Integer idUnion)
     {
         this.idUnion = idUnion;
-    }
-
-    public General(Integer idUnion, int idAdr, int idCity, int idReg)
-    {
-        this.idUnion = idUnion;
-        this.idAdr = idAdr;
-        this.idCity = idCity;
-        this.idReg = idReg;
     }
 
     public Integer getIdUnion()
@@ -184,44 +167,24 @@ public class General implements Serializable {
         this.apartment = apartment;
     }
 
-    public int getIdAdr()
+    public Statement getIdSt()
+    {
+        return idSt;
+    }
+
+    public void setIdSt(Statement idSt)
+    {
+        this.idSt = idSt;
+    }
+
+    public Street getIdAdr()
     {
         return idAdr;
     }
 
-    public void setIdAdr(int idAdr)
+    public void setIdAdr(Street idAdr)
     {
         this.idAdr = idAdr;
-    }
-
-    public int getIdCity()
-    {
-        return idCity;
-    }
-
-    public void setIdCity(int idCity)
-    {
-        this.idCity = idCity;
-    }
-
-    public int getIdReg()
-    {
-        return idReg;
-    }
-
-    public void setIdReg(int idReg)
-    {
-        this.idReg = idReg;
-    }
-
-    public Specialization getIdSpec()
-    {
-        return idSpec;
-    }
-
-    public void setIdSpec(Specialization idSpec)
-    {
-        this.idSpec = idSpec;
     }
 
     public Users getIdUser()
@@ -234,14 +197,14 @@ public class General implements Serializable {
         this.idUser = idUser;
     }
 
-    public Statement getIdSt()
+    public Specialization getIdSpec()
     {
-        return idSt;
+        return idSpec;
     }
 
-    public void setIdSt(Statement idSt)
+    public void setIdSpec(Specialization idSpec)
     {
-        this.idSt = idSt;
+        this.idSpec = idSpec;
     }
 
     @Override
@@ -256,11 +219,11 @@ public class General implements Serializable {
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof General))
+        if (!(object instanceof GeneralTrade))
         {
             return false;
         }
-        General other = (General) object;
+        GeneralTrade other = (GeneralTrade) object;
         if ((this.idUnion == null && other.idUnion != null) || (this.idUnion != null && !this.idUnion.equals(other.idUnion)))
         {
             return false;
@@ -271,7 +234,7 @@ public class General implements Serializable {
     @Override
     public String toString()
     {
-        return "administration.entity.General[ idUnion=" + idUnion + " ]";
+        return "administration.entity.GeneralTrade[ idUnion=" + idUnion + " ]";
     }
     
 }
