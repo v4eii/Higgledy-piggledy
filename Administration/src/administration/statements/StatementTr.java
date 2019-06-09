@@ -6,7 +6,7 @@ package administration.statements;
  */
 public class StatementTr implements IStatement{
     
-    // РљР»Р°СЃСЃ СЃСѓС‰РЅРѕСЃС‚Рё tr
+    // TODO: сущность tr
     String tmp;
 
     public StatementTr(String tmp)

@@ -44,7 +44,7 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р±Р°Р·Рµ + Р·Р°РїРѕР»РЅРµРЅРёРµ Р»РёСЃС‚РѕРІ
+        // TODO: считывание с базы и распихивание
         stmtCaf = new ArrayList<>();
         stmtTr = new ArrayList<>();
         //tmp
@@ -90,7 +90,5 @@ public class MainViewController implements Initializable {
     {
         return clientStage;
     }
-    
-    
 
 }

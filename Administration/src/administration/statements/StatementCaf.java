@@ -6,7 +6,7 @@ package administration.statements;
  */
 public class StatementCaf implements IStatement {
     
-    // РљР»Р°СЃСЃ СЃСѓС‰РЅРѕСЃС‚Рё Caf
+    // TODO: сущность Caf
     String tmp;
 
     public StatementCaf()

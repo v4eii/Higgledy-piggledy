@@ -98,7 +98,7 @@ public class DBBean {
         }
     }
     
-    //<editor-fold defaultstate="collapsed" desc="–ì–µ—Ç—Ç–µ—Ä—ã/–°–µ—Ç—Ç–µ—Ä—ã usr, psw, srv">
+    //<editor-fold defaultstate="collapsed" desc="√ÂÚÚÂ˚/—ÂÚÚÂ˚ usr, psw">
     
     public void setUser(String usr)
     {
@@ -122,7 +122,7 @@ public class DBBean {
     
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="–î–∏–∞–ª–æ–≥–æ–≤—ã–µ –æ–∫–Ω–∞">
+    //<editor-fold defaultstate="collapsed" desc="ƒË‡ÎÓ„Ó‚˚Â ÓÍÌ‡">
     
     public void showErrDialog(Throwable ex, String header, String content)
     {
@@ -139,7 +139,7 @@ public class DBBean {
     public void showInfoDialog(String header, String content)
     {
         Dialog dialog = new Alert(Alert.AlertType.INFORMATION);
-        dialog.setTitle("–ò–Ω—Ñ–æ—Ä–º–∞—Ü–∏—è");
+        dialog.setTitle("–?–Ω—Ñ–æ—Ä–º–∞—Ü–∏—è");
         dialog.setHeaderText(header);
         dialog.initStyle(StageStyle.UTILITY);
         if (!content.isEmpty())
@@ -186,7 +186,8 @@ public class DBBean {
             
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="–ì–µ—Ç—Ç–µ—Ä—ã –∫–æ–Ω—Ç—Ä–æ–ª–ª–µ—Ä–æ–≤ —Å—É—â–Ω–æ—Å—Ç–µ–π">
+    //<editor-fold defaultstate="collapsed" desc="√ÂÚÚÂ˚ ÍÓÌÚÓÎÎÂÓ‚ ÒÛ˘ÌÓÒÚÂÈ">
+    
     public CityJpaController getCityJpaController()
     {
         return cityJPACtrl == null ? cityJPACtrl = new CityJpaController(getEMF()) : cityJPACtrl;

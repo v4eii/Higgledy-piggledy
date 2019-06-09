@@ -32,7 +32,7 @@ public class Administration extends Application {
         AnchorPane aPane = loader.load();
         LoginViewController lCtrl = loader.getController();
         Dialog dialog = new Alert(Alert.AlertType.NONE);
-        dialog.setTitle("РџРѕРґРєР»СЋС‡РµРЅРёРµ");
+        dialog.setTitle("Подключение");
         DialogPane dialogPane = new DialogPane();
         dialogPane.getButtonTypes().add(ButtonType.OK);
         dialogPane.getButtonTypes().add(ButtonType.CANCEL);
@@ -41,7 +41,8 @@ public class Administration extends Application {
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.get() == ButtonType.OK)
         {
-            //РџСЂРѕРІРµСЂРєР° РґР°РЅРЅС‹С… СЋР·РµСЂР°
+            // TODO: Проверка данных юзера
+            
             DBBean.getInstance().setUser(lCtrl.getUser());
             DBBean.getInstance().setPassword(DBBean.getInstance().getMD5String(lCtrl.getPassword()));
 
