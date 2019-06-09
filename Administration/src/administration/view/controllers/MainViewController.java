@@ -85,7 +85,7 @@ public class MainViewController implements Initializable {
                     AnchorPane aPane = loader.load();
                     clientViewCaf = loader.getController();
                     IStatement get = statementList.getSelectionModel().getSelectedItems().get(0);
-                    clientViewCaf.setStmt(get);
+                    clientViewCaf.setStmt((StatementCaf) get);
                     
                     Scene scene = new Scene(aPane);
                     clientStage = new Stage();
@@ -107,7 +107,8 @@ public class MainViewController implements Initializable {
                     AnchorPane aPane = loader.load();
                     clientViewTr = loader.getController();
                     IStatement get = statementList.getSelectionModel().getSelectedItems().get(0);
-                    clientViewTr.setStmt(get);
+                    clientViewTr.setStmt((StatementTr) get);
+                    clientViewTr.initData();
                     
                     Scene scene = new Scene(aPane);
                     clientStage = new Stage();
