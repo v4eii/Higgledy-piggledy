@@ -28,7 +28,7 @@
       <Separator layoutX="13.0" layoutY="69.0" prefHeight="3.0" prefWidth="669.0" />
       <Label layoutX="330.0" layoutY="79.0" text="Адрес" />
       <TextField fx:id="fieldOrgAdress" layoutX="330.0" layoutY="96.0" prefHeight="25.0" prefWidth="352.0" />
-      <TextField fx:id="fieldOrgAdress1" layoutX="11.0" layoutY="144.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldPhoneNumber" layoutX="11.0" layoutY="144.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="13.0" layoutY="127.0" text="Контактный телефон" />
       <Label layoutX="278.0" layoutY="356.0" text="Заявление">
          <font>

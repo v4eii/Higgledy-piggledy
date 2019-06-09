@@ -84,6 +84,8 @@ public class MainViewController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(url);
                     AnchorPane aPane = loader.load();
                     clientViewCaf = loader.getController();
+                    IStatement get = statementList.getSelectionModel().getSelectedItems().get(0);
+                    clientViewCaf.setStmt(get);
                     
                     Scene scene = new Scene(aPane);
                     clientStage = new Stage();
@@ -104,7 +106,9 @@ public class MainViewController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(url);
                     AnchorPane aPane = loader.load();
                     clientViewTr = loader.getController();
-
+                    IStatement get = statementList.getSelectionModel().getSelectedItems().get(0);
+                    clientViewTr.setStmt(get);
+                    
                     Scene scene = new Scene(aPane);
                     clientStage = new Stage();
                     clientStage.setScene(scene);
