@@ -6,9 +6,7 @@
 package administration.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,14 +14,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author –º–≤–∏–¥–µ–æ
+ * @author Ï‚Ë‰ÂÓ
  */
 @Entity
 @Table(catalog = "hackaton", schema = "")
@@ -50,10 +46,6 @@ public class Users implements Serializable {
     private String userName;
     @Column(name = "user_password")
     private String userPassword;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUser")
-    private Collection<GeneralTrade> generalTradeCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUser")
-    private Collection<GeneralCafe> generalCafeCollection;
 
     public Users()
     {
@@ -102,28 +94,6 @@ public class Users implements Serializable {
     public void setUserPassword(String userPassword)
     {
         this.userPassword = userPassword;
-    }
-
-    @XmlTransient
-    public Collection<GeneralTrade> getGeneralTradeCollection()
-    {
-        return generalTradeCollection;
-    }
-
-    public void setGeneralTradeCollection(Collection<GeneralTrade> generalTradeCollection)
-    {
-        this.generalTradeCollection = generalTradeCollection;
-    }
-
-    @XmlTransient
-    public Collection<GeneralCafe> getGeneralCafeCollection()
-    {
-        return generalCafeCollection;
-    }
-
-    public void setGeneralCafeCollection(Collection<GeneralCafe> generalCafeCollection)
-    {
-        this.generalCafeCollection = generalCafeCollection;
     }
 
     @Override

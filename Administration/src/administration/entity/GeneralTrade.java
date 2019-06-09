@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author –º–≤–∏–¥–µ–æ
+ * @author Ï‚Ë‰ÂÓ
  */
 @Entity
 @Table(name = "general_trade", catalog = "hackaton", schema = "")
@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 {
     @NamedQuery(name = "GeneralTrade.findAll", query = "SELECT g FROM GeneralTrade g"),
     @NamedQuery(name = "GeneralTrade.findByIdUnion", query = "SELECT g FROM GeneralTrade g WHERE g.idUnion = :idUnion"),
+    @NamedQuery(name = "GeneralTrade.findByFio", query = "SELECT g FROM GeneralTrade g WHERE g.fio = :fio"),
     @NamedQuery(name = "GeneralTrade.findByTimeFirst", query = "SELECT g FROM GeneralTrade g WHERE g.timeFirst = :timeFirst"),
     @NamedQuery(name = "GeneralTrade.findByTimeLast", query = "SELECT g FROM GeneralTrade g WHERE g.timeLast = :timeLast"),
     @NamedQuery(name = "GeneralTrade.findByChekFlag", query = "SELECT g FROM GeneralTrade g WHERE g.chekFlag = :chekFlag"),
@@ -49,6 +50,7 @@ public class GeneralTrade implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_union")
     private Integer idUnion;
+    private String fio;
     @Column(name = "time_first")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeFirst;
@@ -71,9 +73,6 @@ public class GeneralTrade implements Serializable {
     @JoinColumn(name = "id_adr", referencedColumnName = "id_adr")
     @ManyToOne(optional = false)
     private Street idAdr;
-    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
-    @ManyToOne(optional = false)
-    private Users idUser;
     @JoinColumn(name = "id_spec", referencedColumnName = "id_spec")
     @ManyToOne(optional = false)
     private Specialization idSpec;
@@ -95,6 +94,16 @@ public class GeneralTrade implements Serializable {
     public void setIdUnion(Integer idUnion)
     {
         this.idUnion = idUnion;
+    }
+
+    public String getFio()
+    {
+        return fio;
+    }
+
+    public void setFio(String fio)
+    {
+        this.fio = fio;
     }
 
     public Date getTimeFirst()
@@ -185,16 +194,6 @@ public class GeneralTrade implements Serializable {
     public void setIdAdr(Street idAdr)
     {
         this.idAdr = idAdr;
-    }
-
-    public Users getIdUser()
-    {
-        return idUser;
-    }
-
-    public void setIdUser(Users idUser)
-    {
-        this.idUser = idUser;
     }
 
     public Specialization getIdSpec()

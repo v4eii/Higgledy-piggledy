@@ -1,5 +1,8 @@
 package administration.view.controllers;
 
+import administration.beans.DBBean;
+import administration.entity.GeneralCafe;
+import administration.entity.GeneralTrade;
 import administration.statements.IStatement;
 import administration.statements.StatementCaf;
 import administration.statements.StatementTr;
@@ -33,6 +36,9 @@ public class MainViewController implements Initializable {
     
     private static Stage clientStage;
     
+    private ClientViewCafController clientViewCaf;
+    private ClientViewTrController clientViewTr;
+    
     @FXML
     private MenuItem mUnchekedStatement, 
                     mApprovedStatement, 
@@ -44,13 +50,24 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO: считывание с базы и распихивание
         stmtCaf = new ArrayList<>();
         stmtTr = new ArrayList<>();
-        //tmp
-        stmtTr.add(new StatementTr("Р§С‚Рѕ-С‚Рѕ"));
-        statementList.getItems().add(stmtTr.get(0));
-        //
+        
+        List<GeneralCafe> genCafeList = DBBean.getInstance().getGeneralCafeJpaController().findGeneralCafeEntities();
+        List<GeneralTrade> genTradeList = DBBean.getInstance().getGeneralTradeJpaController().findGeneralTradeEntities();
+        
+        genCafeList.forEach((g) ->
+        {
+            stmtCaf.add(new StatementCaf(g));
+        });
+        genTradeList.forEach((g)->
+        {
+            stmtTr.add(new StatementTr(g));
+        });
+        
+        statementList.getItems().addAll(stmtCaf);
+        statementList.getItems().addAll(stmtTr);
+        
         mReadStatement.addEventHandler(ActionEvent.ACTION, mReadStatementEvent);
     }    
     
@@ -63,15 +80,15 @@ public class MainViewController implements Initializable {
             {
                 try
                 {
-                    URL url = MainViewController.this.getClass().getResource("/administration/view/ClientView.fxml");
+                    URL url = MainViewController.this.getClass().getResource("/administration/view/ClientViewCaf.fxml");
                     FXMLLoader loader = new FXMLLoader(url);
                     AnchorPane aPane = loader.load();
-                    //clientViewController = loader.getController();
-//                  initData();
+                    clientViewCaf = loader.getController();
+                    
                     Scene scene = new Scene(aPane);
                     clientStage = new Stage();
                     clientStage.setScene(scene);
-                    clientStage.setTitle("РџСЂРѕСЃРјРѕС‚СЂ Р·Р°СЏРІРєРё");
+                    clientStage.setTitle("Просмотр заявления");
                     clientStage.showAndWait();
                 }
                 catch (IOException ex)
@@ -79,9 +96,25 @@ public class MainViewController implements Initializable {
                     Logger.getLogger(MainViewController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            else
+            else if (statementList.getSelectionModel().getSelectedItem() instanceof StatementTr)
             {
-                System.out.println("РџРµС‚СѓС‡");
+                try
+                {
+                    URL url = MainViewController.this.getClass().getResource("/administration/view/ClientViewTr.fxml");
+                    FXMLLoader loader = new FXMLLoader(url);
+                    AnchorPane aPane = loader.load();
+                    clientViewTr = loader.getController();
+
+                    Scene scene = new Scene(aPane);
+                    clientStage = new Stage();
+                    clientStage.setScene(scene);
+                    clientStage.setTitle("Просмотр заявления");
+                    clientStage.showAndWait();
+                }
+                catch (IOException ex)
+                {
+                    Logger.getLogger(MainViewController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     };

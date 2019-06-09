@@ -13,7 +13,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import administration.entity.Statement;
 import administration.entity.Street;
-import administration.entity.Users;
 import administration.entity.Specialization;
 import administration.entity.controllers.exceptions.NonexistentEntityException;
 import java.util.List;
@@ -22,7 +21,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author мвидео
+ * @author v4e
  */
 public class GeneralTradeJpaController implements Serializable {
 
@@ -56,12 +55,6 @@ public class GeneralTradeJpaController implements Serializable {
                 idAdr = em.getReference(idAdr.getClass(), idAdr.getIdAdr());
                 generalTrade.setIdAdr(idAdr);
             }
-            Users idUser = generalTrade.getIdUser();
-            if (idUser != null)
-            {
-                idUser = em.getReference(idUser.getClass(), idUser.getIdUser());
-                generalTrade.setIdUser(idUser);
-            }
             Specialization idSpec = generalTrade.getIdSpec();
             if (idSpec != null)
             {
@@ -78,11 +71,6 @@ public class GeneralTradeJpaController implements Serializable {
             {
                 idAdr.getGeneralTradeCollection().add(generalTrade);
                 idAdr = em.merge(idAdr);
-            }
-            if (idUser != null)
-            {
-                idUser.getGeneralTradeCollection().add(generalTrade);
-                idUser = em.merge(idUser);
             }
             if (idSpec != null)
             {
@@ -112,8 +100,6 @@ public class GeneralTradeJpaController implements Serializable {
             Statement idStNew = generalTrade.getIdSt();
             Street idAdrOld = persistentGeneralTrade.getIdAdr();
             Street idAdrNew = generalTrade.getIdAdr();
-            Users idUserOld = persistentGeneralTrade.getIdUser();
-            Users idUserNew = generalTrade.getIdUser();
             Specialization idSpecOld = persistentGeneralTrade.getIdSpec();
             Specialization idSpecNew = generalTrade.getIdSpec();
             if (idStNew != null)
@@ -125,11 +111,6 @@ public class GeneralTradeJpaController implements Serializable {
             {
                 idAdrNew = em.getReference(idAdrNew.getClass(), idAdrNew.getIdAdr());
                 generalTrade.setIdAdr(idAdrNew);
-            }
-            if (idUserNew != null)
-            {
-                idUserNew = em.getReference(idUserNew.getClass(), idUserNew.getIdUser());
-                generalTrade.setIdUser(idUserNew);
             }
             if (idSpecNew != null)
             {
@@ -156,16 +137,6 @@ public class GeneralTradeJpaController implements Serializable {
             {
                 idAdrNew.getGeneralTradeCollection().add(generalTrade);
                 idAdrNew = em.merge(idAdrNew);
-            }
-            if (idUserOld != null && !idUserOld.equals(idUserNew))
-            {
-                idUserOld.getGeneralTradeCollection().remove(generalTrade);
-                idUserOld = em.merge(idUserOld);
-            }
-            if (idUserNew != null && !idUserNew.equals(idUserOld))
-            {
-                idUserNew.getGeneralTradeCollection().add(generalTrade);
-                idUserNew = em.merge(idUserNew);
             }
             if (idSpecOld != null && !idSpecOld.equals(idSpecNew))
             {
@@ -230,12 +201,6 @@ public class GeneralTradeJpaController implements Serializable {
                 idAdr.getGeneralTradeCollection().remove(generalTrade);
                 idAdr = em.merge(idAdr);
             }
-            Users idUser = generalTrade.getIdUser();
-            if (idUser != null)
-            {
-                idUser.getGeneralTradeCollection().remove(generalTrade);
-                idUser = em.merge(idUser);
-            }
             Specialization idSpec = generalTrade.getIdSpec();
             if (idSpec != null)
             {
@@ -296,6 +261,15 @@ public class GeneralTradeJpaController implements Serializable {
         {
             em.close();
         }
+    }
+    
+    public List getOrganizationName(Integer id_union)
+    {
+        EntityManager em = getEntityManager();
+        String tmp = String.format("SELECT Org FROM Statement WHERE id_st = (SELECT id_st FROM General_trade WHERE id_union = %d)", id_union + 1);
+        Query q = em.createNativeQuery(tmp);
+        
+        return q.getResultList();
     }
 
     public int getGeneralTradeCount()

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author –º–≤–∏–¥–µ–æ
+ * @author Ï‚Ë‰ÂÓ
  */
 @Entity
 @Table(name = "general_cafe", catalog = "hackaton", schema = "")
@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 {
     @NamedQuery(name = "GeneralCafe.findAll", query = "SELECT g FROM GeneralCafe g"),
     @NamedQuery(name = "GeneralCafe.findByIdUnion", query = "SELECT g FROM GeneralCafe g WHERE g.idUnion = :idUnion"),
+    @NamedQuery(name = "GeneralCafe.findByFio", query = "SELECT g FROM GeneralCafe g WHERE g.fio = :fio"),
     @NamedQuery(name = "GeneralCafe.findByTimeFirst", query = "SELECT g FROM GeneralCafe g WHERE g.timeFirst = :timeFirst"),
     @NamedQuery(name = "GeneralCafe.findByTimeLast", query = "SELECT g FROM GeneralCafe g WHERE g.timeLast = :timeLast"),
     @NamedQuery(name = "GeneralCafe.findByChekFlag", query = "SELECT g FROM GeneralCafe g WHERE g.chekFlag = :chekFlag"),
@@ -54,6 +55,7 @@ public class GeneralCafe implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_union")
     private Integer idUnion;
+    private String fio;
     @Column(name = "time_first")
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeFirst;
@@ -80,9 +82,6 @@ public class GeneralCafe implements Serializable {
     @JoinColumn(name = "id_adr", referencedColumnName = "id_adr")
     @ManyToOne(optional = false)
     private Street idAdr;
-    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
-    @ManyToOne(optional = false)
-    private Users idUser;
     @JoinColumn(name = "id_spec", referencedColumnName = "id_spec")
     @ManyToOne(optional = false)
     private Specialization idSpec;
@@ -104,6 +103,16 @@ public class GeneralCafe implements Serializable {
     public void setIdUnion(Integer idUnion)
     {
         this.idUnion = idUnion;
+    }
+
+    public String getFio()
+    {
+        return fio;
+    }
+
+    public void setFio(String fio)
+    {
+        this.fio = fio;
     }
 
     public Date getTimeFirst()
@@ -234,16 +243,6 @@ public class GeneralCafe implements Serializable {
     public void setIdAdr(Street idAdr)
     {
         this.idAdr = idAdr;
-    }
-
-    public Users getIdUser()
-    {
-        return idUser;
-    }
-
-    public void setIdUser(Users idUser)
-    {
-        this.idUser = idUser;
     }
 
     public Specialization getIdSpec()

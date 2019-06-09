@@ -13,7 +13,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import administration.entity.Statement;
 import administration.entity.Street;
-import administration.entity.Users;
 import administration.entity.Specialization;
 import administration.entity.controllers.exceptions.NonexistentEntityException;
 import java.util.List;
@@ -22,7 +21,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author –º–≤–∏–¥–µ–æ
+ * @author Ï‚Ë‰ÂÓ
  */
 public class GeneralCafeJpaController implements Serializable {
 
@@ -56,12 +55,6 @@ public class GeneralCafeJpaController implements Serializable {
                 idAdr = em.getReference(idAdr.getClass(), idAdr.getIdAdr());
                 generalCafe.setIdAdr(idAdr);
             }
-            Users idUser = generalCafe.getIdUser();
-            if (idUser != null)
-            {
-                idUser = em.getReference(idUser.getClass(), idUser.getIdUser());
-                generalCafe.setIdUser(idUser);
-            }
             Specialization idSpec = generalCafe.getIdSpec();
             if (idSpec != null)
             {
@@ -78,11 +71,6 @@ public class GeneralCafeJpaController implements Serializable {
             {
                 idAdr.getGeneralCafeCollection().add(generalCafe);
                 idAdr = em.merge(idAdr);
-            }
-            if (idUser != null)
-            {
-                idUser.getGeneralCafeCollection().add(generalCafe);
-                idUser = em.merge(idUser);
             }
             if (idSpec != null)
             {
@@ -112,8 +100,6 @@ public class GeneralCafeJpaController implements Serializable {
             Statement idStNew = generalCafe.getIdSt();
             Street idAdrOld = persistentGeneralCafe.getIdAdr();
             Street idAdrNew = generalCafe.getIdAdr();
-            Users idUserOld = persistentGeneralCafe.getIdUser();
-            Users idUserNew = generalCafe.getIdUser();
             Specialization idSpecOld = persistentGeneralCafe.getIdSpec();
             Specialization idSpecNew = generalCafe.getIdSpec();
             if (idStNew != null)
@@ -125,11 +111,6 @@ public class GeneralCafeJpaController implements Serializable {
             {
                 idAdrNew = em.getReference(idAdrNew.getClass(), idAdrNew.getIdAdr());
                 generalCafe.setIdAdr(idAdrNew);
-            }
-            if (idUserNew != null)
-            {
-                idUserNew = em.getReference(idUserNew.getClass(), idUserNew.getIdUser());
-                generalCafe.setIdUser(idUserNew);
             }
             if (idSpecNew != null)
             {
@@ -156,16 +137,6 @@ public class GeneralCafeJpaController implements Serializable {
             {
                 idAdrNew.getGeneralCafeCollection().add(generalCafe);
                 idAdrNew = em.merge(idAdrNew);
-            }
-            if (idUserOld != null && !idUserOld.equals(idUserNew))
-            {
-                idUserOld.getGeneralCafeCollection().remove(generalCafe);
-                idUserOld = em.merge(idUserOld);
-            }
-            if (idUserNew != null && !idUserNew.equals(idUserOld))
-            {
-                idUserNew.getGeneralCafeCollection().add(generalCafe);
-                idUserNew = em.merge(idUserNew);
             }
             if (idSpecOld != null && !idSpecOld.equals(idSpecNew))
             {
@@ -230,12 +201,6 @@ public class GeneralCafeJpaController implements Serializable {
                 idAdr.getGeneralCafeCollection().remove(generalCafe);
                 idAdr = em.merge(idAdr);
             }
-            Users idUser = generalCafe.getIdUser();
-            if (idUser != null)
-            {
-                idUser.getGeneralCafeCollection().remove(generalCafe);
-                idUser = em.merge(idUser);
-            }
             Specialization idSpec = generalCafe.getIdSpec();
             if (idSpec != null)
             {
@@ -262,6 +227,15 @@ public class GeneralCafeJpaController implements Serializable {
     public List<GeneralCafe> findGeneralCafeEntities(int maxResults, int firstResult)
     {
         return findGeneralCafeEntities(false, maxResults, firstResult);
+    }
+    
+    public List getOrganizationName(Integer id_union)
+    {
+        EntityManager em = getEntityManager();
+        String tmp = String.format("SELECT Org FROM Statement WHERE id_st = (SELECT id_st FROM General_cafe WHERE id_union = %d)", id_union + 1);
+        Query q = em.createNativeQuery(tmp);
+        
+        return q.getResultList();
     }
 
     private List<GeneralCafe> findGeneralCafeEntities(boolean all, int maxResults, int firstResult)

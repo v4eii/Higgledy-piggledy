@@ -22,7 +22,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author РјРІРёРґРµРѕ
+ * @author мвидео
  */
 public class RegionJpaController implements Serializable {
 

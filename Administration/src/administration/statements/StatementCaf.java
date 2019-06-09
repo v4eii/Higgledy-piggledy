@@ -1,32 +1,37 @@
 package administration.statements;
 
+import administration.beans.DBBean;
+import administration.entity.GeneralCafe;
+
 /**
  *
  * @author v4e
  */
 public class StatementCaf implements IStatement {
     
-    // TODO: сущность Caf
-    String tmp;
+    private GeneralCafe statement;
 
     public StatementCaf()
     {
     }
 
-    public StatementCaf(String tmp)
+    public StatementCaf(GeneralCafe statement)
     {
-        this.tmp = tmp;
+        this.statement = statement;
     }
 
-    public String getTmp()
+    public GeneralCafe getStatement()
     {
-        return tmp;
+        return statement;
     }
 
-    public void setTmp(String tmp)
+    @Override
+    public String toString()
     {
-        this.tmp = tmp;
+        return DBBean.getInstance().getStatementJpaController().findStatement(statement.getIdUnion()).getOrg();
     }
+    
+    
     
     
 }

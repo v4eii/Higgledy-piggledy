@@ -25,7 +25,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author РјРІРёРґРµРѕ
+ * @author мвидео
  */
 public class StreetJpaController implements Serializable {
 

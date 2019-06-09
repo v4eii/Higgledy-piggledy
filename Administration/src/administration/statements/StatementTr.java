@@ -1,32 +1,34 @@
 package administration.statements;
 
+import administration.beans.DBBean;
+import administration.entity.GeneralTrade;
+
 /**
  *
  * @author 
  */
 public class StatementTr implements IStatement{
     
-    // TODO: сущность tr
-    String tmp;
+    private GeneralTrade statement;
 
-    public StatementTr(String tmp)
+    public StatementTr(GeneralTrade statement)
     {
-        this.tmp = tmp;
+        this.statement = statement;
     }
 
     public StatementTr()
     {
     }
 
-    public String getTmp()
+    public GeneralTrade getStatement()
     {
-        return tmp;
-    }
-
-    public void setTmp(String tmp)
-    {
-        this.tmp = tmp;
+        return statement;
     }
     
+    @Override
+    public String toString()
+    {
+        return DBBean.getInstance().getStatementJpaController().findStatement(statement.getIdUnion()).getOrg();
+    }
     
 }

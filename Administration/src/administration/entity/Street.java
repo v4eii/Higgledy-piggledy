@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author –º–≤–∏–¥–µ–æ
+ * @author Ï‚Ë‰ÂÓ
  */
 @Entity
 @Table(catalog = "hackaton", schema = "")
@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Street.findAll", query = "SELECT s FROM Street s"),
     @NamedQuery(name = "Street.findByIdAdr", query = "SELECT s FROM Street s WHERE s.idAdr = :idAdr"),
     @NamedQuery(name = "Street.findByStreet", query = "SELECT s FROM Street s WHERE s.street = :street"),
-    @NamedQuery(name = "Street.findByIndex", query = "SELECT s FROM Street s WHERE s.index = :index")
+    @NamedQuery(name = "Street.findByPochta", query = "SELECT s FROM Street s WHERE s.pochta = :pochta")
 })
 public class Street implements Serializable {
 
@@ -46,7 +46,7 @@ public class Street implements Serializable {
     @Column(name = "id_adr")
     private Integer idAdr;
     private String street;
-    private String index;
+    private String pochta;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAdr")
     private Collection<GeneralTrade> generalTradeCollection;
     @JoinColumn(name = "id_city", referencedColumnName = "id_city")
@@ -86,14 +86,14 @@ public class Street implements Serializable {
         this.street = street;
     }
 
-    public String getIndex()
+    public String getPochta()
     {
-        return index;
+        return pochta;
     }
 
-    public void setIndex(String index)
+    public void setPochta(String pochta)
     {
-        this.index = index;
+        this.pochta = pochta;
     }
 
     @XmlTransient
