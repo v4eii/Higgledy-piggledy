@@ -10,26 +10,26 @@
 <AnchorPane id="AnchorPane" prefHeight="682.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administration.view.controllers.ClientViewCafController">
    <children>
       <Label layoutX="610.0" layoutY="15.0" text="Ф.И.О. Руководителя" />
-      <TextField fx:id="fieldFIO" layoutX="524.0" layoutY="32.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextField fx:id="fieldFIO" editable="false" layoutX="524.0" layoutY="32.0" prefHeight="25.0" prefWidth="200.0" />
       <Label layoutX="568.0" layoutY="595.0" text="Дата подачи" />
-      <TextField fx:id="fieldDateCreate" layoutX="568.0" layoutY="612.0" prefHeight="25.0" prefWidth="146.0" />
-      <TextField fx:id="fieldTimeEnd" layoutX="187.0" layoutY="570.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldDateCreate" editable="false" layoutX="568.0" layoutY="612.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldTimeEnd" editable="false" layoutX="187.0" layoutY="570.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="187.0" layoutY="553.0" text="До" />
       <Label layoutX="22.0" layoutY="553.0" text="От" />
-      <TextField fx:id="fieldTimeBegin" layoutX="22.0" layoutY="570.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldTimeBegin" editable="false" layoutX="22.0" layoutY="570.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="22.0" layoutY="536.0" text="Срок осуществления деятельности" />
-      <TextField fx:id="fieldStatAdress" layoutX="15.0" layoutY="452.0" prefHeight="25.0" prefWidth="410.0" />
+      <TextField fx:id="fieldStatAdress" editable="false" layoutX="15.0" layoutY="452.0" prefHeight="25.0" prefWidth="410.0" />
       <Label layoutX="21.0" layoutY="435.0" text="По адресу" />
-      <TextField fx:id="fieldSpec" layoutX="171.0" layoutY="501.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldSpec" editable="false" layoutX="171.0" layoutY="501.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="177.0" layoutY="484.0" text="Специализация" />
       <Label layoutX="23.0" layoutY="57.0" text="Организация" />
       <Separator layoutX="21.0" layoutY="74.0" prefHeight="1.0" prefWidth="681.0" />
       <Label layoutX="23.0" layoutY="84.0" text="Наименование" />
-      <TextField fx:id="fieldOrgName" layoutX="19.0" layoutY="101.0" prefHeight="25.0" prefWidth="301.0" />
+      <TextField fx:id="fieldOrgName" editable="false" layoutX="19.0" layoutY="101.0" prefHeight="25.0" prefWidth="301.0" />
       <Label layoutX="334.0" layoutY="84.0" text="Адрес" />
-      <TextField fx:id="fieldOrgAdress" layoutX="334.0" layoutY="101.0" prefHeight="25.0" prefWidth="352.0" />
+      <TextField fx:id="fieldOrgAdress" editable="false" layoutX="334.0" layoutY="101.0" prefHeight="25.0" prefWidth="352.0" />
       <Label layoutX="23.0" layoutY="137.0" text="Контактный телефон" />
-      <TextField fx:id="fieldPhoneNumber" layoutX="23.0" layoutY="154.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldPhoneNumber" editable="false" layoutX="23.0" layoutY="154.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="22.0" layoutY="411.0" text="обслуживания (летнего кафе)" />
       <Label layoutX="22.0" layoutY="394.0" text="Прошу выдать паспорт размещения временной организации быстрого" />
       <Separator layoutX="21.0" layoutY="391.0" prefHeight="3.0" prefWidth="704.0" />
@@ -41,20 +41,20 @@
       <Label layoutX="22.0" layoutY="198.0" text="ОГРН" />
       <Separator layoutX="17.0" layoutY="214.0" prefHeight="3.0" prefWidth="704.0" />
       <Label layoutX="23.0" layoutY="226.0" text="Номер" />
-      <TextField fx:id="fieldOGRN" layoutX="23.0" layoutY="243.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldOGRN" editable="false" layoutX="23.0" layoutY="243.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="207.0" layoutY="226.0" text="До" />
-      <TextField fx:id="fieldOGRNDate" layoutX="204.0" layoutY="243.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldOGRNDate" editable="false" layoutX="204.0" layoutY="243.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="24.0" layoutY="279.0" text="ИНН" />
       <Separator layoutX="17.0" layoutY="296.0" prefHeight="3.0" prefWidth="704.0" />
       <Label layoutX="23.0" layoutY="311.0" text="Номер" />
-      <TextField fx:id="fieldINN" layoutX="23.0" layoutY="330.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldINN" editable="false" layoutX="23.0" layoutY="330.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="207.0" layoutY="311.0" text="До" />
-      <TextField fx:id="fieldINNDate" layoutX="204.0" layoutY="330.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldINNDate" editable="false" layoutX="204.0" layoutY="330.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="19.0" layoutY="484.0" text="Площадь объекта" />
-      <TextField fx:id="fieldSquare" layoutX="14.0" layoutY="501.0" prefHeight="25.0" prefWidth="146.0" />
-      <TextField fx:id="fieldKadastrNum" layoutX="434.0" layoutY="452.0" prefHeight="25.0" prefWidth="230.0" />
+      <TextField fx:id="fieldSquare" editable="false" layoutX="14.0" layoutY="501.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldKadastrNum" editable="false" layoutX="434.0" layoutY="452.0" prefHeight="25.0" prefWidth="230.0" />
       <Label layoutX="434.0" layoutY="435.0" text="Кадастровый номер земельного участка" />
-      <TextField fx:id="fieldOkato" layoutX="325.0" layoutY="501.0" prefHeight="25.0" prefWidth="146.0" />
+      <TextField fx:id="fieldOkato" editable="false" layoutX="325.0" layoutY="501.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="330.0" layoutY="484.0" text="ОКАТО" />
       <Button fx:id="btnAccepted" layoutX="488.0" layoutY="649.0" mnemonicParsing="false" text="Утвердить" />
       <Button fx:id="btnCancel" layoutX="653.0" layoutY="649.0" mnemonicParsing="false" text="Отмена" />
