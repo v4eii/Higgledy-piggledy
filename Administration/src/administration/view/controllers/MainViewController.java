@@ -76,22 +76,33 @@ public class MainViewController implements Initializable {
         @Override
         public void handle(ActionEvent event)
         {
+            boolean flag = false;
             if (statementList.getSelectionModel().getSelectedItem() instanceof StatementCaf)
             {
+                StatementCaf get = (StatementCaf) statementList.getSelectionModel().getSelectedItems().get(0);
+                if (!get.getStatement().getChekFlag().equals("Unchecked"))
+                {
+                    DBBean.getInstance().showWarningDialog("Внимание", "Данное заявление уже было обработано.");
+                    flag = true;
+                }
                 try
                 {
-                    URL url = MainViewController.this.getClass().getResource("/administration/view/ClientViewCaf.fxml");
-                    FXMLLoader loader = new FXMLLoader(url);
-                    AnchorPane aPane = loader.load();
-                    clientViewCaf = loader.getController();
-                    IStatement get = statementList.getSelectionModel().getSelectedItems().get(0);
-                    clientViewCaf.setStmt((StatementCaf) get);
-                    
-                    Scene scene = new Scene(aPane);
-                    clientStage = new Stage();
-                    clientStage.setScene(scene);
-                    clientStage.setTitle("Просмотр заявления");
-                    clientStage.showAndWait();
+                    if (!flag)
+                    {
+                        URL url = MainViewController.this.getClass().getResource("/administration/view/ClientViewCaf.fxml");
+                        FXMLLoader loader = new FXMLLoader(url);
+                        AnchorPane aPane = loader.load();
+                        clientViewCaf = loader.getController();
+                        clientViewCaf.setStmt(get);
+
+                        Scene scene = new Scene(aPane);
+                        clientStage = new Stage();
+                        clientStage.setScene(scene);
+                        clientStage.setTitle("Просмотр заявления");
+                        clientStage.showAndWait();
+                    }
+                    else
+                        flag = false;
                 }
                 catch (IOException ex)
                 {
@@ -100,21 +111,31 @@ public class MainViewController implements Initializable {
             }
             else if (statementList.getSelectionModel().getSelectedItem() instanceof StatementTr)
             {
+                StatementTr get =(StatementTr) statementList.getSelectionModel().getSelectedItems().get(0);
+                if (!get.getStatement().getChekFlag().equals("Unchecked"))
+                {
+                    DBBean.getInstance().showWarningDialog("Внимание", "Данное заявление уже было обработано.");
+                    flag = true;
+                }
                 try
                 {
-                    URL url = MainViewController.this.getClass().getResource("/administration/view/ClientViewTr.fxml");
-                    FXMLLoader loader = new FXMLLoader(url);
-                    AnchorPane aPane = loader.load();
-                    clientViewTr = loader.getController();
-                    IStatement get = statementList.getSelectionModel().getSelectedItems().get(0);
-                    clientViewTr.setStmt((StatementTr) get);
-                    clientViewTr.initData();
-                    
-                    Scene scene = new Scene(aPane);
-                    clientStage = new Stage();
-                    clientStage.setScene(scene);
-                    clientStage.setTitle("Просмотр заявления");
-                    clientStage.showAndWait();
+                    if (!flag)
+                    {
+                        URL url = MainViewController.this.getClass().getResource("/administration/view/ClientViewTr.fxml");
+                        FXMLLoader loader = new FXMLLoader(url);
+                        AnchorPane aPane = loader.load();
+                        clientViewTr = loader.getController();
+
+                        clientViewTr.setStmt(get);
+                        clientViewTr.initData();
+                        Scene scene = new Scene(aPane);
+                        clientStage = new Stage();
+                        clientStage.setScene(scene);
+                        clientStage.setTitle("Просмотр заявления");
+                        clientStage.showAndWait();
+                    }
+                    else
+                        flag = false;
                 }
                 catch (IOException ex)
                 {

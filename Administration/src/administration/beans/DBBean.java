@@ -127,7 +127,7 @@ public class DBBean {
     public void showErrDialog(Throwable ex, String header, String content)
     {
         ExceptionDialog dialog = new ExceptionDialog(ex);
-        dialog.setTitle("РћС€РёР±РєР°");
+        dialog.setTitle("Ошибка");
         dialog.setHeaderText(header);
         dialog.initStyle(StageStyle.UTILITY);
         if (!content.isEmpty())
@@ -139,7 +139,7 @@ public class DBBean {
     public void showInfoDialog(String header, String content)
     {
         Dialog dialog = new Alert(Alert.AlertType.INFORMATION);
-        dialog.setTitle("Р?РЅС„РѕСЂРјР°С†РёСЏ");
+        dialog.setTitle("Информация");
         dialog.setHeaderText(header);
         dialog.initStyle(StageStyle.UTILITY);
         if (!content.isEmpty())
@@ -153,7 +153,7 @@ public class DBBean {
         Dialog dialog = new Alert(Alert.AlertType.WARNING);
         dialog.initStyle(StageStyle.UTILITY);
         dialog.setHeaderText(header);
-        dialog.setTitle("Р’РЅРёРјР°РЅРёРµ");
+        dialog.setTitle("Предупреждение");
         if (!content.isEmpty())
             dialog.setContentText(content);
         
