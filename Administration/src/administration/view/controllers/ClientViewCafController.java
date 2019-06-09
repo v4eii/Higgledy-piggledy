@@ -87,7 +87,7 @@ public class ClientViewCafController implements Initializable {
         fieldTimeBegin.setText(stmt.getStatement().getTimeFirst().toString());
         fieldTimeEnd.setText(stmt.getStatement().getTimeLast().toString());
         fieldDateCreate.setText(stmt.getStatement().getDateCreate().toString());
-        fieldKadastrNum.setText(stmt.getStatement().getKadastr().toString());
+        fieldKadastrNum.setText(stmt.getStatement().getKadastr());
         fieldSquare.setText(stmt.getStatement().getSquare().toString());
         fieldOkato.setText(stmt.getStatement().getOkato().toString());
     }

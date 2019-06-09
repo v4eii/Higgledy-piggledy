@@ -94,7 +94,8 @@ public class MainViewController implements Initializable {
                         AnchorPane aPane = loader.load();
                         clientViewCaf = loader.getController();
                         clientViewCaf.setStmt(get);
-
+                        clientViewCaf.initData();
+                        
                         Scene scene = new Scene(aPane);
                         clientStage = new Stage();
                         clientStage.setScene(scene);
