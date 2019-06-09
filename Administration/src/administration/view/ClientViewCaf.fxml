@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="701.0" prefWidth="739.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="administration.view.controllers.ClientViewCafController">
+<AnchorPane id="AnchorPane" prefHeight="742.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administration.view.controllers.ClientViewCafController">
    <children>
       <Label layoutX="607.0" layoutY="14.0" text="Ф.И.О. Руководителя" />
       <TextField fx:id="fieldFIO" layoutX="521.0" layoutY="31.0" prefHeight="25.0" prefWidth="200.0" />
@@ -53,9 +52,12 @@
       <TextField fx:id="fieldINNDate" layoutX="204.0" layoutY="345.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="22.0" layoutY="519.0" text="Площадь объекта" />
       <TextField fx:id="fieldSquare" layoutX="17.0" layoutY="536.0" prefHeight="25.0" prefWidth="146.0" />
-      <TextField fx:id="fieldZem" layoutX="437.0" layoutY="487.0" prefHeight="25.0" prefWidth="230.0" />
-      <Label layoutX="437.0" layoutY="470.0" text="На земельном участке, прилегающем к" />
+      <TextField fx:id="fieldKadastrNum" layoutX="437.0" layoutY="487.0" prefHeight="25.0" prefWidth="230.0" />
+      <Label layoutX="437.0" layoutY="470.0" text="Кадастровый номер земельного участка" />
       <TextField fx:id="fieldOkato" layoutX="328.0" layoutY="536.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="333.0" layoutY="519.0" text="ОКАТО" />
+      <Button fx:id="btnAccepted" layoutX="492.0" layoutY="703.0" mnemonicParsing="false" text="Утвердить" />
+      <Button fx:id="btnCancel" layoutX="657.0" layoutY="703.0" mnemonicParsing="false" text="Отмена" />
+      <Button fx:id="btnDenied" layoutX="572.0" layoutY="703.0" mnemonicParsing="false" text="Отклонить" />
    </children>
 </AnchorPane>
