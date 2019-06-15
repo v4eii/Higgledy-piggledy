@@ -1,39 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administration.view.controllers.MainViewController">
+<BorderPane fx:id="bPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administration.view.controllers.MainViewController">
+   <left>
+      <Accordion BorderPane.alignment="CENTER">
+        <panes>
+          <TitledPane text="Не просмотренные">
+               <content>
+                  <ListView fx:id="uncheckedListView" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+            </TitledPane>
+          <TitledPane expanded="false" text="Утвержденные">
+               <content>
+                  <ListView fx:id="acceptedListView" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+            </TitledPane>
+            <TitledPane expanded="false" prefHeight="200.0" prefWidth="200.0" text="Отклоненные">
+               <content>
+                  <ListView fx:id="deniedListView" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+            </TitledPane>
+        </panes>
+      </Accordion>
+   </left>
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="Заявления">
+          <Menu mnemonicParsing="false" text="Обработка">
             <items>
-              <MenuItem fx:id="mUnchekedStatement" mnemonicParsing="false" text="Не рассмотренные" />
-                  <MenuItem fx:id="mApprovedStatement" mnemonicParsing="false" text="Одобренные" />
-                  <MenuItem fx:id="mRejectStatement" mnemonicParsing="false" text="Отказанные" />
+              <MenuItem fx:id="mAccept" text="Утвердить">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="mDenied" text="Отклонить">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Помощь">
-            <items>
-              <MenuItem mnemonicParsing="false" text="О программе" />
-            </items>
+          <Menu mnemonicParsing="false" text="Настройки">
+               <items>
+                  <RadioMenuItem fx:id="rmActivateButton" mnemonicParsing="false" text="Кнопки внизу панели" />
+               </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
-   <center>
-      <ListView fx:id="statementList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <contextMenu>
-            <ContextMenu>
-              <items>
-                <MenuItem fx:id="mReadStatement" mnemonicParsing="false" text="Просмотр" />
-              </items>
-            </ContextMenu>
-         </contextMenu>
-      </ListView>
-   </center>
+   <bottom>
+      <ToolBar fx:id="buttonToolBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="7.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <items>
+          <Button fx:id="btnDenied" mnemonicParsing="false" text="Отклонить" />
+            <Button fx:id="btnAccept" mnemonicParsing="false" text="Утвердить" />
+        </items>
+      </ToolBar>
+   </bottom>
 </BorderPane>

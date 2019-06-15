@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,57 +8,180 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="682.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administration.view.controllers.ClientViewCafController">
+
+<AnchorPane fx:id="aPane" minHeight="0.0" minWidth="0.0" prefHeight="628.0" prefWidth="704.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="administration.view.controllers.ClientViewCafController">
    <children>
-      <Label layoutX="610.0" layoutY="15.0" text="Ф.И.О. Руководителя" />
-      <TextField fx:id="fieldFIO" editable="false" layoutX="524.0" layoutY="32.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label layoutX="568.0" layoutY="595.0" text="Дата подачи" />
-      <TextField fx:id="fieldDateCreate" editable="false" layoutX="568.0" layoutY="612.0" prefHeight="25.0" prefWidth="146.0" />
-      <TextField fx:id="fieldTimeEnd" editable="false" layoutX="187.0" layoutY="570.0" prefHeight="25.0" prefWidth="146.0" />
-      <Label layoutX="187.0" layoutY="553.0" text="До" />
-      <Label layoutX="22.0" layoutY="553.0" text="От" />
-      <TextField fx:id="fieldTimeBegin" editable="false" layoutX="22.0" layoutY="570.0" prefHeight="25.0" prefWidth="146.0" />
-      <Label layoutX="22.0" layoutY="536.0" text="Срок осуществления деятельности" />
-      <TextField fx:id="fieldStatAdress" editable="false" layoutX="15.0" layoutY="452.0" prefHeight="25.0" prefWidth="410.0" />
-      <Label layoutX="21.0" layoutY="435.0" text="По адресу" />
-      <TextField fx:id="fieldSpec" editable="false" layoutX="171.0" layoutY="501.0" prefHeight="25.0" prefWidth="146.0" />
-      <Label layoutX="177.0" layoutY="484.0" text="Специализация" />
-      <Label layoutX="23.0" layoutY="57.0" text="Организация" />
-      <Separator layoutX="21.0" layoutY="74.0" prefHeight="1.0" prefWidth="681.0" />
-      <Label layoutX="23.0" layoutY="84.0" text="Наименование" />
-      <TextField fx:id="fieldOrgName" editable="false" layoutX="19.0" layoutY="101.0" prefHeight="25.0" prefWidth="301.0" />
-      <Label layoutX="334.0" layoutY="84.0" text="Адрес" />
-      <TextField fx:id="fieldOrgAdress" editable="false" layoutX="334.0" layoutY="101.0" prefHeight="25.0" prefWidth="352.0" />
-      <Label layoutX="23.0" layoutY="137.0" text="Контактный телефон" />
-      <TextField fx:id="fieldPhoneNumber" editable="false" layoutX="23.0" layoutY="154.0" prefHeight="25.0" prefWidth="146.0" />
-      <Label layoutX="22.0" layoutY="411.0" text="обслуживания (летнего кафе)" />
-      <Label layoutX="22.0" layoutY="394.0" text="Прошу выдать паспорт размещения временной организации быстрого" />
-      <Separator layoutX="21.0" layoutY="391.0" prefHeight="3.0" prefWidth="704.0" />
-      <Label layoutX="328.0" layoutY="371.0" text="Заявление">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="22.0" layoutY="198.0" text="ОГРН" />
-      <Separator layoutX="17.0" layoutY="214.0" prefHeight="3.0" prefWidth="704.0" />
-      <Label layoutX="23.0" layoutY="226.0" text="Номер" />
-      <TextField fx:id="fieldOGRN" editable="false" layoutX="23.0" layoutY="243.0" prefHeight="25.0" prefWidth="146.0" />
-      <Label layoutX="207.0" layoutY="226.0" text="До" />
-      <TextField fx:id="fieldOGRNDate" editable="false" layoutX="204.0" layoutY="243.0" prefHeight="25.0" prefWidth="146.0" />
-      <Label layoutX="24.0" layoutY="279.0" text="ИНН" />
-      <Separator layoutX="17.0" layoutY="296.0" prefHeight="3.0" prefWidth="704.0" />
-      <Label layoutX="23.0" layoutY="311.0" text="Номер" />
-      <TextField fx:id="fieldINN" editable="false" layoutX="23.0" layoutY="330.0" prefHeight="25.0" prefWidth="146.0" />
-      <Label layoutX="207.0" layoutY="311.0" text="До" />
-      <TextField fx:id="fieldINNDate" editable="false" layoutX="204.0" layoutY="330.0" prefHeight="25.0" prefWidth="146.0" />
-      <Label layoutX="19.0" layoutY="484.0" text="Площадь объекта" />
-      <TextField fx:id="fieldSquare" editable="false" layoutX="14.0" layoutY="501.0" prefHeight="25.0" prefWidth="146.0" />
-      <TextField fx:id="fieldKadastrNum" editable="false" layoutX="434.0" layoutY="452.0" prefHeight="25.0" prefWidth="230.0" />
-      <Label layoutX="434.0" layoutY="435.0" text="Кадастровый номер земельного участка" />
-      <TextField fx:id="fieldOkato" editable="false" layoutX="325.0" layoutY="501.0" prefHeight="25.0" prefWidth="146.0" />
-      <Label layoutX="330.0" layoutY="484.0" text="ОКАТО" />
-      <Button fx:id="btnAccepted" layoutX="488.0" layoutY="649.0" mnemonicParsing="false" text="Утвердить" />
-      <Button fx:id="btnCancel" layoutX="653.0" layoutY="649.0" mnemonicParsing="false" text="Отмена" />
-      <Button fx:id="btnDenied" layoutX="568.0" layoutY="649.0" mnemonicParsing="false" text="Отклонить" />
+      <Separator layoutX="13.0" layoutY="402.0" prefHeight="3.0" prefWidth="669.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <Separator layoutX="14.0" layoutY="277.0" prefHeight="3.0" prefWidth="669.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <Label layoutX="14.0" layoutY="258.0" text="ИНН" AnchorPane.leftAnchor="14.0" />
+      <Separator layoutX="14.0" layoutY="195.0" prefHeight="3.0" prefWidth="669.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <Label layoutX="14.0" layoutY="179.0" text="ОГРН" AnchorPane.leftAnchor="14.0" />
+      <Label layoutX="575.0" layoutY="14.0" text="Ф.И.О. Руководителя" AnchorPane.rightAnchor="15.0" />
+      <TextField fx:id="fieldFIO" editable="false" layoutX="489.0" layoutY="33.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.rightAnchor="15.0" />
+      <Separator layoutX="13.0" layoutY="71.0" prefHeight="3.0" prefWidth="669.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="15.0" />
+      <Label layoutX="13.0" layoutY="55.0" text="Организация" AnchorPane.leftAnchor="13.0" />
+      <Label layoutX="618.0" layoutY="572.0" text="Дата подачи" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="14.0" />
+      <GridPane layoutX="13.0" layoutY="73.0" prefHeight="99.0" prefWidth="676.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="542.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="333.0" minWidth="10.0" prefWidth="134.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id="fieldOrgName" editable="false" prefHeight="25.0" prefWidth="301.0" GridPane.rowIndex="1" />
+            <Label text="Наименование" />
+            <Label text="Адрес" GridPane.rowIndex="2" />
+            <TextField fx:id="fieldOrgAdress" editable="false" prefHeight="25.0" prefWidth="352.0" GridPane.rowIndex="3" />
+            <Label text="Контактный телефон" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="fieldPhoneNumber" editable="false" prefHeight="25.0" prefWidth="146.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </TextField>
+         </children>
+      </GridPane>
+      <GridPane layoutX="14.0" layoutY="198.0" prefHeight="54.0" prefWidth="679.0" AnchorPane.leftAnchor="14.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="479.0" minWidth="10.0" prefWidth="479.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="562.0" minWidth="10.0" prefWidth="200.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Номер" />
+            <TextField fx:id="fieldOGRN" editable="false" prefHeight="25.0" prefWidth="146.0" GridPane.rowIndex="1" />
+            <Label text="До" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </Label>
+            <DatePicker fx:id="dFieldOGRNDate" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                   <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </DatePicker>
+         </children>
+      </GridPane>
+      <GridPane layoutX="14.0" layoutY="279.0" prefHeight="60.0" prefWidth="679.0" AnchorPane.leftAnchor="14.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="481.0" minWidth="10.0" prefWidth="479.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="200.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Номер" />
+            <TextField fx:id="fieldINN" editable="false" prefHeight="25.0" prefWidth="146.0" GridPane.rowIndex="1" />
+            <Label text="До" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </Label>
+            <DatePicker fx:id="dFieldINNDate" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                   <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </DatePicker>
+         </children>
+      </GridPane>
+      <GridPane layoutX="14.0" layoutY="405.0" prefHeight="119.0" prefWidth="676.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="700.0" minWidth="10.0" prefWidth="475.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="700.0" minWidth="10.0" prefWidth="204.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="По адресу" />
+            <TextField fx:id="fieldStatAdress" editable="false" prefHeight="25.0" prefWidth="410.0" GridPane.rowIndex="1" />
+            <Label text="Специализация" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="6.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="fieldSpec" editable="false" prefHeight="25.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label prefHeight="17.0" prefWidth="253.0" text="Срок осуществления деятельности" GridPane.rowIndex="5" />
+            <Label text="ОКАТО" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="fieldOkato" editable="false" prefHeight="25.0" prefWidth="146.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label text="Кадастровый номер земельного участка" GridPane.rowIndex="2" />
+            <TextField fx:id="fieldKadastrNum" editable="false" prefHeight="25.0" prefWidth="230.0" GridPane.rowIndex="3" />
+            <Label text="Площадь объекта" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="fieldSquare" editable="false" prefHeight="25.0" prefWidth="146.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </TextField>
+         </children>
+      </GridPane>
+      <HBox alignment="CENTER" layoutX="13.0" layoutY="346.0" prefHeight="47.0" prefWidth="200.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+         <children>
+            <Label prefHeight="47.0" prefWidth="162.0" text="Заявление">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <GridPane layoutX="14.0" layoutY="524.0" prefHeight="47.0" prefWidth="676.0" AnchorPane.leftAnchor="14.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="200.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="10.0" prefWidth="200.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="От" />
+            <Label text="До" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </Label>
+            <DatePicker fx:id="dFieldTimeBegin" prefWidth="200.0" GridPane.rowIndex="1" />
+            <DatePicker fx:id="dFieldTimeEnd" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                   <GridPane.margin>
+                  <Insets left="6.0" right="6.0" />
+               </GridPane.margin>
+            </DatePicker>
+         </children>
+      </GridPane>
+      <DatePicker fx:id="dFieldDateCreate" layoutX="515.0" layoutY="589.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
    </children>
 </AnchorPane>
+

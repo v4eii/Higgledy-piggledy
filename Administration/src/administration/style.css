@@ -1,0 +1,86 @@
+.root {
+    -fx-background-image: url("/administration/resources/background.png");
+}
+
+.menu-bar {
+    -fx-background-color: #1d1d1d;
+}
+
+.tool-bar {
+    -fx-background-color: #1d1d1d;
+}
+
+/**/
+.titled-pane 
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.TitledPaneSkin";    
+    -fx-text-fill: white;
+}
+.titled-pane:focused 
+{
+    -fx-text-fill: white;
+}
+.titled-pane > .title 
+{
+    -fx-background-color: #1d1d1d;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+}
+
+.titled-pane:focused > .title 
+{
+    -fx-background-color: #2c2c2c;
+}
+
+.titled-pane:hover > .title {
+    -fx-background-color: #4A5058;
+}
+
+.titled-pane > .title > .arrow-button 
+{
+    -fx-background-color: null;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.0em 0.25em 0.0em 0.0em; /* 0 3 0 0 */
+}
+
+.titled-pane > .title > .arrow-button .arrow 
+{
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.25em 0.3125em 0.25em 0.3125em; /* 3 3.75 3 3.75 */
+    -fx-shape: "M 0 0 h 7 l -3.5 4 z";
+}
+
+.titled-pane:collapsed > .title > .arrow-button .arrow 
+{
+    -fx-rotate: -90;
+}
+
+.titled-pane > *.content 
+{
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-color,-02%), derive(-fx-color,65%) 12%,      derive(-fx-color,23%) 88%, derive(-fx-color,50%) 99%, -fx-box-border);
+    -fx-background-insets: 0, 0 1 1 1;
+    -fx-padding: 0.167em;
+}
+
+.titled-pane:focused > .title > .arrow-button .arrow 
+{
+    -fx-background-color: white;
+}
+/**/
+
+.button {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+}
