@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.input.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
@@ -50,6 +51,10 @@
           <Menu mnemonicParsing="false" text="Настройки">
                <items>
                   <RadioMenuItem fx:id="rmActivateButton" mnemonicParsing="false" text="Кнопки внизу панели" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <RadioMenuItem fx:id="rmCloseToESC" mnemonicParsing="false" text="Закрытие предпросмотра нажатием ESC" />
+                  <RadioMenuItem fx:id="rmCloseToUnfocus" mnemonicParsing="false" text="Закрытие предпросмотра при потере фокуса" />
+                  <RadioMenuItem fx:id="rmCloseToMouseExited" mnemonicParsing="false" text="Закрытие предпросмотра при потере наведения" />
                </items>
           </Menu>
         </menus>
@@ -63,4 +68,11 @@
         </items>
       </ToolBar>
    </bottom>
+   <right>
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="342.0" prefWidth="142.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="documentBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" />
+         </content>
+      </ScrollPane>
+   </right>
 </BorderPane>

@@ -42,6 +42,7 @@ public class Administration extends Application {
 
             stage.setScene(scene);
             stage.initStyle(StageStyle.DECORATED);
+            stage.setTitle("Обработка заявлений");
             stage.setMaximized(true);
             stage.show();
         /*}

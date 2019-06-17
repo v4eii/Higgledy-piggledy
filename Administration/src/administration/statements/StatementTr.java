@@ -2,6 +2,7 @@ package administration.statements;
 
 import administration.beans.DBBean;
 import administration.entity.GeneralTrade;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -10,7 +11,16 @@ import administration.entity.GeneralTrade;
 public class StatementTr implements IStatement{
     
     private GeneralTrade statement;
+    private Image INN, OGRN;
 
+    public StatementTr(GeneralTrade statement, Image INN, Image OGRN)
+    {
+        this.statement = statement;
+        this.INN = INN;
+        this.OGRN = OGRN;
+    }
+    
+    // TMP
     public StatementTr(GeneralTrade statement)
     {
         this.statement = statement;
@@ -29,6 +39,16 @@ public class StatementTr implements IStatement{
     public String toString()
     {
         return DBBean.getInstance().getStatementJpaController().findStatement(statement.getIdUnion()).getOrg();
+    }
+
+    public Image getINN()
+    {
+        return INN;
+    }
+
+    public Image getOGRN()
+    {
+        return OGRN;
     }
     
 }

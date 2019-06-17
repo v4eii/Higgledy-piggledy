@@ -65,7 +65,7 @@
                   <Insets left="6.0" right="6.0" />
                </GridPane.margin>
             </Label>
-            <DatePicker fx:id="dFieldOGRNDate" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <DatePicker fx:id="dFieldOGRNDate" editable="false" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="6.0" right="6.0" />
                </GridPane.margin>
@@ -89,7 +89,7 @@
                   <Insets left="6.0" right="6.0" />
                </GridPane.margin>
             </Label>
-            <DatePicker fx:id="dFieldINNDate" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <DatePicker fx:id="dFieldINNDate" editable="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="6.0" right="6.0" />
                </GridPane.margin>
@@ -147,14 +147,14 @@
                   <Insets left="6.0" right="6.0" />
                </GridPane.margin>
             </Label>
-            <DatePicker fx:id="dFieldTimeBegin" prefWidth="200.0" GridPane.rowIndex="1" />
-            <DatePicker fx:id="dFieldTimeEnd" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <DatePicker fx:id="dFieldTimeBegin" editable="false" prefWidth="200.0" GridPane.rowIndex="1" />
+            <DatePicker fx:id="dFieldTimeEnd" editable="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="6.0" right="6.0" />
                </GridPane.margin>
             </DatePicker>
          </children>
       </GridPane>
-      <DatePicker fx:id="dFieldDateCreate" layoutX="515.0" layoutY="589.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <DatePicker fx:id="dFieldDateCreate" editable="false" layoutX="515.0" layoutY="589.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
    </children>
 </AnchorPane>

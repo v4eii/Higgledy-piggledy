@@ -2,6 +2,7 @@ package administration.statements;
 
 import administration.beans.DBBean;
 import administration.entity.GeneralCafe;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -10,11 +11,20 @@ import administration.entity.GeneralCafe;
 public class StatementCaf implements IStatement {
     
     private GeneralCafe statement;
+    private Image INN, OGRN;
 
     public StatementCaf()
     {
     }
 
+    public StatementCaf(GeneralCafe statement, Image INN, Image OGRN)
+    {
+        this.statement = statement;
+        this.INN = INN;
+        this.OGRN = OGRN;
+    }
+    
+    // TMP
     public StatementCaf(GeneralCafe statement)
     {
         this.statement = statement;
@@ -30,8 +40,14 @@ public class StatementCaf implements IStatement {
     {
         return DBBean.getInstance().getStatementJpaController().findStatement(statement.getIdUnion()).getOrg();
     }
-    
-    
-    
-    
+
+    public Image getINN()
+    {
+        return INN;
+    }
+
+    public Image getOGRN()
+    {
+        return OGRN;
+    }
 }

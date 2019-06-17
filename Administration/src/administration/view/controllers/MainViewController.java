@@ -6,6 +6,7 @@ import administration.entity.GeneralTrade;
 import administration.statements.IStatement;
 import administration.statements.StatementCaf;
 import administration.statements.StatementTr;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,20 +14,32 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -34,6 +47,10 @@ import javafx.scene.layout.BorderPane;
  */
 public class MainViewController implements Initializable {
     
+    private double xOffset,
+                   yOffset;
+    
+    private Stage documentStage;
     
     private List<StatementCaf> stmtCaf;
     private List<StatementTr> stmtTr;
@@ -43,6 +60,7 @@ public class MainViewController implements Initializable {
     private IStatement activeStatement;
     
     private SimpleBooleanProperty activeButton = new SimpleBooleanProperty(false);
+    private SimpleBooleanProperty checkedStatement = new SimpleBooleanProperty(true);
     
     @FXML
     private BorderPane bPane;
@@ -57,7 +75,10 @@ public class MainViewController implements Initializable {
     @FXML
     private MenuItem mAccept, mDenied;
     @FXML
-    private RadioMenuItem rmActivateButton;
+    private RadioMenuItem rmActivateButton,
+                          rmCloseToESC, rmCloseToUnfocus, rmCloseToMouseExited;
+    @FXML
+    private VBox documentBox;
     
     
     @Override
@@ -68,8 +89,11 @@ public class MainViewController implements Initializable {
 
         List<GeneralCafe> genCafeList = DBBean.getInstance().getGeneralCafeJpaController().findGeneralCafeEntities();
         List<GeneralTrade> genTradeList = DBBean.getInstance().getGeneralTradeJpaController().findGeneralTradeEntities();
-
+        
+        //<editor-fold defaultstate="collapsed" desc="Statement filters">
+        
         //<editor-fold defaultstate="collapsed" desc="Unchecked filter">
+        
         List<GeneralCafe> filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
         {
             return t.getChekFlag().equals("Unchecked");
@@ -86,8 +110,8 @@ public class MainViewController implements Initializable {
         });
 
         filterTradeList.forEach((g) ->
-        {
-            stmtTr.add(new StatementTr(g));
+        {   //TODO: 
+            stmtTr.add(new StatementTr(g, new Image("file:///E://INNTest.png"), new Image("file:///E://OGRNTest.png")));
         });
 
         uncheckedListView.getItems().addAll(FXCollections.observableArrayList(stmtCaf));
@@ -95,6 +119,7 @@ public class MainViewController implements Initializable {
 
         stmtCaf.clear();
         stmtTr.clear();
+        
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Accepted filter">
@@ -150,6 +175,12 @@ public class MainViewController implements Initializable {
         deniedListView.getItems().addAll(FXCollections.observableArrayList(stmtTr));
         //</editor-fold>
 
+        //</editor-fold>
+        
+        rmCloseToESC.setSelected(true);
+        rmCloseToESC.selectedProperty().addListener(checkActiveRadioMenuItem);
+        rmCloseToMouseExited.selectedProperty().addListener(checkActiveRadioMenuItem);
+        rmCloseToUnfocus.selectedProperty().addListener(checkActiveRadioMenuItem);
         rmActivateButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) ->
         {
             if (rmActivateButton.isSelected())
@@ -161,21 +192,24 @@ public class MainViewController implements Initializable {
         {
             if (event.getClickCount() == 2)
             {
-                readStatementInList(uncheckedListView);
+                showStatementInList(uncheckedListView);
+                checkedStatement.setValue(Boolean.FALSE);   
             }
         });
         acceptedListView.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) ->
         {
             if (event.getClickCount() == 2)
             {
-                readStatementInList(acceptedListView);
+                showStatementInList(acceptedListView);
+                checkedStatement.setValue(Boolean.TRUE);
             }
         });
         deniedListView.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) ->
         {
             if (event.getClickCount() == 2)
             {
-                readStatementInList(deniedListView);
+                showStatementInList(deniedListView);
+                checkedStatement.setValue(Boolean.TRUE);
             }
         });
         btnAccept.addEventHandler(ActionEvent.ACTION, acceptStatement);
@@ -183,10 +217,26 @@ public class MainViewController implements Initializable {
         btnDenied.addEventHandler(ActionEvent.ACTION, deniedStatement);
         mDenied.addEventHandler(ActionEvent.ACTION, deniedStatement);
         buttonToolBar.visibleProperty().bind(activeButton);
+        btnAccept.disableProperty().bind(checkedStatement);
+        btnDenied.disableProperty().bind(checkedStatement);
+        mAccept.disableProperty().bind(checkedStatement);
+        mDenied.disableProperty().bind(checkedStatement);
     }
-
-    private void readStatementInList(ListView listView)
+    
+    private final ChangeListener<Boolean> checkActiveRadioMenuItem = (ObservableValue<? extends Boolean> observable, 
+            Boolean oldValue, Boolean newValue) ->
     {
+        if (!rmCloseToESC.isSelected() && !rmCloseToMouseExited.isSelected() && !rmCloseToUnfocus.isSelected())
+        {
+            DBBean.getInstance().showWarningDialog("Внимание", 
+                    "Должен быть выбран хотя бы один вариант закрытия окна предпросмотра");
+            rmCloseToESC.setSelected(true);
+        }
+    };
+
+    private void showStatementInList(ListView listView)
+    {
+        documentBox.getChildren().clear();
         if (listView.getSelectionModel().getSelectedItem() instanceof StatementTr)
         {
             StatementTr selectedStatement = (StatementTr) listView.getSelectionModel().getSelectedItem();
@@ -199,6 +249,7 @@ public class MainViewController implements Initializable {
                 clientViewTr.setStmt(selectedStatement);
                 activeStatement = selectedStatement;
                 clientViewTr.initData();
+                showDocuments(selectedStatement.getINN(), selectedStatement.getOGRN());
                 bPane.setCenter(aPane);
             }
             catch (IOException ex)
@@ -302,4 +353,109 @@ public class MainViewController implements Initializable {
             }
         }
     };
+    
+    private void showDocuments(Image INN, Image OGRN)
+    {
+        ImageView imageViewINN = new ImageView(INN);
+        imageViewINN.setFitWidth(120);
+        imageViewINN.setFitHeight(150);
+        ImageView imageViewOGRN = new ImageView(OGRN);
+        imageViewOGRN.setFitWidth(120);
+        imageViewOGRN.setFitHeight(150);
+        
+        ToggleButton tgBtnINN = new ToggleButton("", imageViewINN);
+        ToggleButton tgBtnOGRN = new ToggleButton("", imageViewOGRN);
+        ToggleGroup tgGroup = new ToggleGroup();
+        tgBtnINN.setToggleGroup(tgGroup);
+        tgBtnOGRN.setToggleGroup(tgGroup);
+        
+        tgBtnINN.selectedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) ->
+        {
+            if (tgBtnINN.isSelected())
+            {
+                showFullDocument(tgBtnINN, INN);
+            }
+            else if (documentStage != null)
+            {
+                documentStage.close();
+            }
+        });
+        tgBtnOGRN.selectedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) ->
+        {
+            if (tgBtnOGRN.isSelected())
+            {
+                showFullDocument(tgBtnOGRN, OGRN);
+            }
+            else if (documentStage != null)
+            {
+                documentStage.close();
+            }
+        });
+        documentBox.getChildren().add(tgBtnINN);
+        documentBox.getChildren().add(tgBtnOGRN);
+    }
+    
+    private void showFullDocument(ToggleButton tgBtn, Image img)
+    {
+        BorderPane tmpPane = new BorderPane();
+        ImageView imageViewFull = new ImageView(img);
+        imageViewFull.setFitWidth(Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2);
+        imageViewFull.setFitHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight()
+                - (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 10));
+        tmpPane.setCenter(imageViewFull);
+        Scene sc = new Scene(tmpPane);
+        documentStage = new Stage();
+        documentStage.setTitle("Предпросмотр");
+        
+        sc.setOnMousePressed((MouseEvent event) ->
+        {
+            xOffset = documentStage.getX() - event.getScreenX();
+            yOffset = documentStage.getY() - event.getScreenY();
+        });
+        sc.setOnMouseDragged((MouseEvent event) ->
+        {
+            documentStage.setX(event.getScreenX() + xOffset);
+            documentStage.setY(event.getScreenY() + yOffset);
+        });
+        sc.setOnMouseExited((MouseEvent event2) ->
+        {
+            if (rmCloseToMouseExited.isSelected())
+            {
+                documentStage.close();
+                tgBtn.setSelected(false);
+            }
+        });
+        sc.setOnKeyPressed((KeyEvent event2) ->
+        {
+            if (rmCloseToESC.isSelected())
+            {
+                if (event2.getCode() == KeyCode.ESCAPE)
+                {
+                    documentStage.close();
+                    tgBtn.setSelected(false);
+                }
+            }
+        });
+        documentStage.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, 
+                Boolean oldValue, Boolean newValue) ->
+        {
+            if (rmCloseToUnfocus.isSelected())
+            {
+                if (!documentStage.isFocused())
+                {
+                    documentStage.close();
+                    tgBtn.setSelected(false);
+                }
+            }
+        });
+        documentStage.setScene(sc);
+        documentStage.initStyle(StageStyle.UNDECORATED);
+        documentStage.showAndWait();
+    }
+
+    public BorderPane getbPane()
+    {
+        return bPane;
+    }
+    
 }
