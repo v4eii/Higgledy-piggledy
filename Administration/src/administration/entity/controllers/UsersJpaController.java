@@ -1,24 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package administration.entity.controllers;
 
+import administration.beans.DBBean;
 import administration.entity.Users;
 import administration.entity.controllers.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
+import javafx.application.Platform;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.security.auth.login.AccountException;
 
 /**
  *
- * @author мвидео
+ * @author v4e
  */
 public class UsersJpaController implements Serializable {
 
@@ -156,6 +155,27 @@ public class UsersJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public Users findUsers(String login)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            Query q = em.createNamedQuery("Users.findByUserLogin", Users.class);
+            q.setParameter("userLogin", login);
+            return q.getFirstResult() == -1 ? null : (Users) q.getSingleResult();
+        }
+        catch(NoResultException ex)
+        {
+            DBBean.getInstance().showErrDialog(new AccountException("Не существующий пользователь"), "Ошибка", "Данный пользователь не существует");
+            Platform.exit();
+        }
+        finally
+        {
+            em.close();
+        }
+        return null;
+    }
 
     public int getUsersCount()
     {
@@ -172,6 +192,26 @@ public class UsersJpaController implements Serializable {
         {
             em.close();
         }
+    }
+    
+    public String getUserPassword(String login)
+    {
+        EntityManager em = getEntityManager();
+        try
+        {
+            Query q = em.createNamedQuery("Users.findUserPassword", Users.class);
+            q.setParameter("userLogin", login);
+            return (String) q.getSingleResult();
+        }
+        catch (NoResultException ex)
+        {
+            System.err.println("Ошибка поиска пароля, ввиду отсутствия юзера");
+        }
+        finally
+        {
+            em.close();
+        }
+        return "";
     }
     
 }
