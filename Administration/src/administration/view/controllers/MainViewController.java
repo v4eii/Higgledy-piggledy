@@ -27,6 +27,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
@@ -69,6 +70,10 @@ public class MainViewController implements Initializable {
                              acceptedListView, 
                              uncheckedListView;
     @FXML
+    private TitledPane deniedPane,
+                       acceptedPane,
+                       uncheckedPane;
+    @FXML
     private Button btnAccept, btnDenied;
     @FXML
     private ToolBar buttonToolBar;
@@ -80,7 +85,9 @@ public class MainViewController implements Initializable {
     @FXML
     private VBox documentBox;
     
-    
+    private List<GeneralCafe> filterCafeList;
+    private List<GeneralTrade> filterTradeList;
+
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {   
@@ -90,97 +97,113 @@ public class MainViewController implements Initializable {
         List<GeneralCafe> genCafeList = DBBean.getInstance().getGeneralCafeJpaController().findGeneralCafeEntities();
         List<GeneralTrade> genTradeList = DBBean.getInstance().getGeneralTradeJpaController().findGeneralTradeEntities();
         
-        //<editor-fold defaultstate="collapsed" desc="Statement filters">
-        
-        //<editor-fold defaultstate="collapsed" desc="Unchecked filter">
-        
-        List<GeneralCafe> filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
-        {
-            return t.getChekFlag().equals("Unchecked");
-        }).collect(Collectors.toList());
-
-        List<GeneralTrade> filterTradeList = genTradeList.stream().filter((GeneralTrade t) ->
-        {
-            return t.getChekFlag().equals("Unchecked");
-        }).collect(Collectors.toList());
-
-        filterCafeList.forEach((g) ->
-        {
-            stmtCaf.add(new StatementCaf(g));
-        });
-
-        filterTradeList.forEach((g) ->
-        {   //TODO: 
-            stmtTr.add(new StatementTr(g, new Image("file:///E://INNTest.png"), new Image("file:///E://OGRNTest.png")));
-        });
-
-        uncheckedListView.getItems().addAll(FXCollections.observableArrayList(stmtCaf));
-        uncheckedListView.getItems().addAll(FXCollections.observableArrayList(stmtTr));
-
-        stmtCaf.clear();
-        stmtTr.clear();
-        
-        //</editor-fold>
-
-        //<editor-fold defaultstate="collapsed" desc="Accepted filter">
-        filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
-        {
-            return t.getChekFlag().equals("Accepted");
-        }).collect(Collectors.toList());
-
-        filterTradeList = genTradeList.stream().filter((GeneralTrade t) ->
-        {
-            return t.getChekFlag().equals("Accepted");
-        }).collect(Collectors.toList());
-
-        filterCafeList.forEach((g) ->
-        {
-            stmtCaf.add(new StatementCaf(g));
-        });
-
-        filterTradeList.forEach((g) ->
-        {
-            stmtTr.add(new StatementTr(g));
-        });
-
-        acceptedListView.getItems().addAll(FXCollections.observableArrayList(stmtCaf));
-        acceptedListView.getItems().addAll(FXCollections.observableArrayList(stmtTr));
-
-        stmtCaf.clear();
-        stmtTr.clear();
-        //</editor-fold>
-
-        //<editor-fold defaultstate="collapsed" desc="Denied filter">
-        filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
-        {
-            return t.getChekFlag().equals("Denied");
-        }).collect(Collectors.toList());
-
-        filterTradeList = genTradeList.stream().filter((GeneralTrade t) ->
-        {
-            return t.getChekFlag().equals("Denied");
-        }).collect(Collectors.toList());
-
-        filterCafeList.forEach((g) ->
-        {
-            stmtCaf.add(new StatementCaf(g));
-        });
-
-        filterTradeList.forEach((g) ->
-        {
-            stmtTr.add(new StatementTr(g));
-        });
-
-        deniedListView.getItems().addAll(FXCollections.observableArrayList(stmtCaf));
-        deniedListView.getItems().addAll(FXCollections.observableArrayList(stmtTr));
-        //</editor-fold>
-
-        //</editor-fold>
-        
         rmCloseToESC.setSelected(true);
         rmCloseToESC.selectedProperty().addListener(checkActiveRadioMenuItem);
         rmCloseToMouseExited.selectedProperty().addListener(checkActiveRadioMenuItem);
         rmCloseToUnfocus.selectedProperty().addListener(checkActiveRadioMenuItem);
+        
+        uncheckedPane.setOnMouseReleased((MouseEvent event) ->
+        {
+            //<editor-fold defaultstate="collapsed" desc="Unchecked filter">
+            if (uncheckedListView.getItems().isEmpty())
+            {
+                filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
+                {
+                    return t.getChekFlag().equals("Unchecked");
+                }).collect(Collectors.toList());
+
+                filterTradeList = genTradeList.stream().filter((GeneralTrade t) ->
+                {
+                    return t.getChekFlag().equals("Unchecked");
+                }).collect(Collectors.toList());
+
+                filterCafeList.forEach((g) ->
+                {
+                    stmtCaf.add(new StatementCaf(g));
+                });
+
+                filterTradeList.forEach((g) ->
+                {   //TODO: 
+                    stmtTr.add(new StatementTr(g, new Image("file:///E://INNTest.png"), new Image("file:///E://OGRNTest.png")));
+                });
+
+                uncheckedListView.getItems().addAll(FXCollections.observableArrayList(stmtCaf));
+                uncheckedListView.getItems().addAll(FXCollections.observableArrayList(stmtTr));
+
+                stmtCaf.clear();
+                stmtTr.clear();
+                filterCafeList.clear();
+                filterTradeList.clear();
+            }
+            //</editor-fold>
+        });
+        
+        acceptedPane.setOnMouseReleased((MouseEvent event) ->
+        {
+            //<editor-fold defaultstate="collapsed" desc="Accepted filter">
+            filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
+            {
+                return t.getChekFlag().equals("Accepted");
+            }).collect(Collectors.toList());
+
+            filterTradeList = genTradeList.stream().filter((GeneralTrade t) ->
+            {
+                return t.getChekFlag().equals("Accepted");
+            }).collect(Collectors.toList());
+
+            filterCafeList.forEach((g) ->
+            {
+                stmtCaf.add(new StatementCaf(g));
+            });
+
+            filterTradeList.forEach((g) ->
+            {
+                stmtTr.add(new StatementTr(g));
+            });
+
+            acceptedListView.getItems().addAll(FXCollections.observableArrayList(stmtCaf));
+            acceptedListView.getItems().addAll(FXCollections.observableArrayList(stmtTr));
+
+            stmtCaf.clear();
+            stmtTr.clear();
+            filterCafeList.clear();
+            filterTradeList.clear();
+            //</editor-fold>
+        });
+        
+        deniedPane.setOnMouseReleased((MouseEvent event) ->
+        {
+            //<editor-fold defaultstate="collapsed" desc="Denied filter">
+            filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
+            {
+                return t.getChekFlag().equals("Denied");
+            }).collect(Collectors.toList());
+
+            filterTradeList = genTradeList.stream().filter((GeneralTrade t) ->
+            {
+                return t.getChekFlag().equals("Denied");
+            }).collect(Collectors.toList());
+
+            filterCafeList.forEach((g) ->
+            {
+                stmtCaf.add(new StatementCaf(g));
+            });
+
+            filterTradeList.forEach((g) ->
+            {
+                stmtTr.add(new StatementTr(g));
+            });
+
+            deniedListView.getItems().addAll(FXCollections.observableArrayList(stmtCaf));
+            deniedListView.getItems().addAll(FXCollections.observableArrayList(stmtTr));
+            
+            stmtCaf.clear();
+            stmtTr.clear();
+            filterCafeList.clear();
+            filterTradeList.clear();
+            //</editor-fold>
+        });
+        
         rmActivateButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) ->
         {
             if (rmActivateButton.isSelected())
@@ -188,6 +211,7 @@ public class MainViewController implements Initializable {
             else
                 activeButton.setValue(Boolean.FALSE);
         });
+        
         uncheckedListView.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) ->
         {
             if (event.getClickCount() == 2)

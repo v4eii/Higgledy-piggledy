@@ -14,17 +14,17 @@
    <left>
       <Accordion BorderPane.alignment="CENTER">
         <panes>
-          <TitledPane text="Не просмотренные">
+          <TitledPane fx:id="uncheckedPane" text="Не просмотренные">
                <content>
                   <ListView fx:id="uncheckedListView" prefHeight="200.0" prefWidth="200.0" />
                </content>
             </TitledPane>
-          <TitledPane expanded="false" text="Утвержденные">
+          <TitledPane fx:id="acceptedPane" expanded="false" text="Утвержденные">
                <content>
                   <ListView fx:id="acceptedListView" prefHeight="200.0" prefWidth="200.0" />
                </content>
             </TitledPane>
-            <TitledPane expanded="false" prefHeight="200.0" prefWidth="200.0" text="Отклоненные">
+            <TitledPane fx:id="deniedPane" expanded="false" prefHeight="200.0" prefWidth="200.0" text="Отклоненные">
                <content>
                   <ListView fx:id="deniedListView" prefHeight="200.0" prefWidth="200.0" />
                </content>
