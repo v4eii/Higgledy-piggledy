@@ -85,8 +85,10 @@ public class MainViewController implements Initializable {
     @FXML
     private VBox documentBox;
     
-    private List<GeneralCafe> filterCafeList;
-    private List<GeneralTrade> filterTradeList;
+    private List<GeneralCafe> filterCafeList, 
+                              genCafeList;
+    private List<GeneralTrade> filterTradeList,
+                               genTradeList;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -94,8 +96,8 @@ public class MainViewController implements Initializable {
         stmtCaf = new ArrayList<>();
         stmtTr = new ArrayList<>();
 
-        List<GeneralCafe> genCafeList = DBBean.getInstance().getGeneralCafeJpaController().findGeneralCafeEntities();
-        List<GeneralTrade> genTradeList = DBBean.getInstance().getGeneralTradeJpaController().findGeneralTradeEntities();
+        genCafeList = DBBean.getInstance().getGeneralCafeJpaController().findGeneralCafeEntities();
+        genTradeList = DBBean.getInstance().getGeneralTradeJpaController().findGeneralTradeEntities();
         
         rmCloseToESC.setSelected(true);
         rmCloseToESC.selectedProperty().addListener(checkActiveRadioMenuItem);
@@ -104,7 +106,7 @@ public class MainViewController implements Initializable {
         
         uncheckedPane.setOnMouseReleased((MouseEvent event) ->
         {
-            //<editor-fold defaultstate="collapsed" desc="Unchecked filter">
+            // TODO: временная реализация, после поставить filteredStatement()
             if (uncheckedListView.getItems().isEmpty())
             {
                 filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
@@ -135,73 +137,22 @@ public class MainViewController implements Initializable {
                 filterCafeList.clear();
                 filterTradeList.clear();
             }
-            //</editor-fold>
         });
         
         acceptedPane.setOnMouseReleased((MouseEvent event) ->
         {
-            //<editor-fold defaultstate="collapsed" desc="Accepted filter">
-            filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
+            if (acceptedListView.getItems().isEmpty())
             {
-                return t.getChekFlag().equals("Accepted");
-            }).collect(Collectors.toList());
-
-            filterTradeList = genTradeList.stream().filter((GeneralTrade t) ->
-            {
-                return t.getChekFlag().equals("Accepted");
-            }).collect(Collectors.toList());
-
-            filterCafeList.forEach((g) ->
-            {
-                stmtCaf.add(new StatementCaf(g));
-            });
-
-            filterTradeList.forEach((g) ->
-            {
-                stmtTr.add(new StatementTr(g));
-            });
-
-            acceptedListView.getItems().addAll(FXCollections.observableArrayList(stmtCaf));
-            acceptedListView.getItems().addAll(FXCollections.observableArrayList(stmtTr));
-
-            stmtCaf.clear();
-            stmtTr.clear();
-            filterCafeList.clear();
-            filterTradeList.clear();
-            //</editor-fold>
+                filteredStatement(acceptedListView, "Accepted");
+            }
         });
         
         deniedPane.setOnMouseReleased((MouseEvent event) ->
         {
-            //<editor-fold defaultstate="collapsed" desc="Denied filter">
-            filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
+            if (deniedListView.getItems().isEmpty())
             {
-                return t.getChekFlag().equals("Denied");
-            }).collect(Collectors.toList());
-
-            filterTradeList = genTradeList.stream().filter((GeneralTrade t) ->
-            {
-                return t.getChekFlag().equals("Denied");
-            }).collect(Collectors.toList());
-
-            filterCafeList.forEach((g) ->
-            {
-                stmtCaf.add(new StatementCaf(g));
-            });
-
-            filterTradeList.forEach((g) ->
-            {
-                stmtTr.add(new StatementTr(g));
-            });
-
-            deniedListView.getItems().addAll(FXCollections.observableArrayList(stmtCaf));
-            deniedListView.getItems().addAll(FXCollections.observableArrayList(stmtTr));
-            
-            stmtCaf.clear();
-            stmtTr.clear();
-            filterCafeList.clear();
-            filterTradeList.clear();
-            //</editor-fold>
+                filteredStatement(deniedListView, "Denied");
+            }
         });
         
         rmActivateButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) ->
@@ -258,6 +209,37 @@ public class MainViewController implements Initializable {
         }
     };
 
+    private void filteredStatement(ListView listView, String key)
+    {
+        filterCafeList = genCafeList.stream().filter((GeneralCafe t) ->
+        {
+            return t.getChekFlag().equals(key);
+        }).collect(Collectors.toList());
+
+        filterTradeList = genTradeList.stream().filter((GeneralTrade t) ->
+        {
+            return t.getChekFlag().equals(key);
+        }).collect(Collectors.toList());
+
+        filterCafeList.forEach((g) ->
+        {
+            stmtCaf.add(new StatementCaf(g));
+        });
+
+        filterTradeList.forEach((g) ->
+        {
+            stmtTr.add(new StatementTr(g));
+        });
+
+        listView.getItems().addAll(FXCollections.observableArrayList(stmtCaf));
+        listView.getItems().addAll(FXCollections.observableArrayList(stmtTr));
+
+        stmtCaf.clear();
+        stmtTr.clear();
+        filterCafeList.clear();
+        filterTradeList.clear();
+    }
+    
     private void showStatementInList(ListView listView)
     {
         documentBox.getChildren().clear();
@@ -275,6 +257,7 @@ public class MainViewController implements Initializable {
                 clientViewTr.initData();
                 showDocuments(selectedStatement.getINN(), selectedStatement.getOGRN());
                 bPane.setCenter(aPane);
+                listView.getSelectionModel().select(null);
             }
             catch (IOException ex)
             {
@@ -294,6 +277,7 @@ public class MainViewController implements Initializable {
                 activeStatement = selectedStatement;
                 clientViewCaf.initData();
                 bPane.setCenter(aPane);
+                listView.getSelectionModel().select(null);
             }
             catch (IOException ex)
             {
